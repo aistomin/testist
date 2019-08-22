@@ -13,35 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.aistomin.testist;
-
 /**
- * Dummy class.
- *
- * @since 0.1
+ * The root package of the "Testist" project.
  */
-public final class Dummy {
-
-    /**
-     * Dummy field.
-     */
-    private final String field;
-
-    /**
-     * Ctor.
-     *
-     * @param param Dummy field.
-     */
-    public Dummy(final String param) {
-        this.field = param;
-    }
-
-    /**
-     * Dummy value.
-     *
-     * @return Dummy value.
-     */
-    public String value() {
-        return this.field;
-    }
-}
+package com.github.aistomin.testist;
