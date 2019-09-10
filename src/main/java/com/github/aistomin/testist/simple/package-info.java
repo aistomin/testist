@@ -13,22 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.aistomin.testist;
-
-import java.util.UUID;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 /**
- * Test for {@link Dummy}.
- *
- * @since 0.1
+ * Simple test implementation's package.
  */
-final class DummyTest {
-
-    @Test
-    void testValue() {
-        final String expected = UUID.randomUUID().toString();
-        Assertions.assertEquals(expected, new Dummy(expected).value());
-    }
-}
+package com.github.aistomin.testist.simple;

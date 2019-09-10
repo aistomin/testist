@@ -15,33 +15,26 @@
  */
 package com.github.aistomin.testist;
 
+import org.json.simple.JSONObject;
+
 /**
- * Dummy class.
+ * The interface of displayable object.
  *
  * @since 0.1
  */
-public final class Dummy {
+public interface Displayable {
 
     /**
-     * Dummy field.
-     */
-    private final String field;
-
-    /**
-     * Ctor.
+     * Convert the entity to something which can be displayed in console.
      *
-     * @param param Dummy field.
+     * @return The displayable string.
      */
-    public Dummy(final String param) {
-        this.field = param;
-    }
+    String toDisplayableString();
 
     /**
-     * Dummy value.
+     * Convert the entity to the valid JSON.
      *
-     * @return Dummy value.
+     * @return JSON.
      */
-    public String value() {
-        return this.field;
-    }
+    JSONObject toJson();
 }
