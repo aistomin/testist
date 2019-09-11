@@ -28,6 +28,8 @@ import org.json.simple.JSONObject;
  * The multi-choice implementation of the {@link QuestionsText}.
  *
  * @since 0.1
+ * @todo: Let's fix Issue #18 and remove PMD suppression.
+ * @todo: Let's fix Issue #19 and remove PMD suppression.
  */
 @SuppressWarnings(
     {

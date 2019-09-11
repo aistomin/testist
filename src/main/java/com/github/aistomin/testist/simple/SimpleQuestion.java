@@ -27,6 +27,8 @@ import org.json.simple.JSONObject;
  * The simple implementation of {@link Question}.
  *
  * @since 0.1
+ * @todo: Let's fix  Issue #20 and remove checkstyle suppression.
+ * @todo: Let's fix  Issue #21 and remove PMD suppression.
  * @checkstyle AnnotationUseStyleCheck (200 lines)
  */
 @SuppressWarnings(
