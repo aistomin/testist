@@ -23,6 +23,7 @@ import java.util.Scanner;
  * Encapsulates the logic which interacts with user.
  *
  * @since 0.1
+ * @todo: Let's fix  Issue #44 and remove PMD suppression.
  */
 @SuppressWarnings("PMD.SystemPrintln")
 public final class SimpleTestConsole {

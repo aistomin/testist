@@ -19,6 +19,7 @@ package com.github.aistomin.testist.simple;
  * The example of the simple test.
  *
  * @since 0.1
+ * @todo: Let's fix  Issue #45 and remove PMD suppression.
  */
 @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
 public final class SimpleTestDemo {
