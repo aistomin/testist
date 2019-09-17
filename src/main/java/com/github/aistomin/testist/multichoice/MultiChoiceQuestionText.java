@@ -28,15 +28,9 @@ import org.json.simple.JSONObject;
  * The multi-choice implementation of the {@link QuestionsText}.
  *
  * @since 0.1
- * @todo: Let's fix Issue #18 and remove PMD suppression.
  * @todo: Let's fix Issue #19 and remove PMD suppression.
  */
-@SuppressWarnings(
-    {
-        "PMD.AppendCharacterWithChar",
-        "PMD.ConsecutiveLiteralAppends"
-    }
-)
+@SuppressWarnings("PMD.ConsecutiveLiteralAppends")
 @SuppressFBWarnings
 public final class MultiChoiceQuestionText implements QuestionsText {
 
@@ -66,13 +60,12 @@ public final class MultiChoiceQuestionText implements QuestionsText {
     @Override
     public String toDisplayableString() {
         final StringBuilder builder = new StringBuilder(this.text);
-        builder.append("\n");
+        builder.append(String.format("%n"));
         final List<Choice> keys = new ArrayList<>(this.choices.keySet());
         keys.sort(Comparator.naturalOrder());
         keys.forEach(
             key -> {
-                builder.append("\n");
-                builder.append(key.name());
+                builder.append(String.format("%n%s", key.name()));
                 builder.append(". ");
                 builder.append(this.choices.get(key));
             }
