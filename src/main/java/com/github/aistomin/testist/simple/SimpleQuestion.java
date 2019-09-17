@@ -34,7 +34,6 @@ import org.json.simple.JSONObject;
  * @todo: Let's fix  Issue #24 and remove PMD suppression.
  * @todo: Let's fix  Issue #25 and remove PMD suppression.
  * @todo: Let's fix  Issue #26 and remove PMD suppression.
- * @checkstyle AnnotationUseStyleCheck (200 lines)
  */
 @SuppressWarnings(
     {
