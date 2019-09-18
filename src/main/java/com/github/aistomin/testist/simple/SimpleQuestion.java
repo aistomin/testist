@@ -27,7 +27,6 @@ import org.json.simple.JSONObject;
  * The simple implementation of {@link Question}.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #21 and remove PMD suppression.
  * @todo: Let's fix  Issue #22 and remove PMD suppression.
  * @todo: Let's fix  Issue #23 and remove PMD suppression.
  * @todo: Let's fix  Issue #24 and remove PMD suppression.
@@ -36,7 +35,6 @@ import org.json.simple.JSONObject;
  */
 @SuppressWarnings(
     {
-        "PMD.AvoidSynchronizedAtMethodLevel",
         "PMD.AppendCharacterWithChar",
         "PMD.ConsecutiveAppendsShouldReuse",
         "PMD.ConsecutiveLiteralAppends",
@@ -63,6 +61,11 @@ public final class SimpleQuestion implements Question {
     private Answer got;
 
     /**
+     * Mutex object.
+     */
+    private final Object mutex;
+
+    /**
      * Ctor.
      *
      * @param text Question's text.
@@ -71,24 +74,31 @@ public final class SimpleQuestion implements Question {
     public SimpleQuestion(final QuestionsText text, final Answer answer) {
         this.text = text;
         this.expected = answer;
+        this.mutex = new Object();
     }
 
     @Override
-    public synchronized void answer(final Answer answer) {
-        if (this.got != null) {
-            throw new IllegalStateException("Can not answer the same question twice.");
+    public void answer(final Answer answer) {
+        synchronized (this.mutex) {
+            if (this.got != null) {
+                throw new IllegalStateException("Can not answer the same question twice.");
+            }
+            this.got = answer;
         }
-        this.got = answer;
     }
 
     @Override
-    public synchronized Boolean isCorrect() {
-        return this.isAnswered() && this.expected.validate(this.got);
+    public Boolean isCorrect() {
+        synchronized (this.mutex) {
+            return this.isAnswered() && this.expected.validate(this.got);
+        }
     }
 
     @Override
-    public synchronized Boolean isAnswered() {
-        return this.got != null;
+    public Boolean isAnswered() {
+        synchronized (this.mutex) {
+            return this.got != null;
+        }
     }
 
     @Override
@@ -97,50 +107,54 @@ public final class SimpleQuestion implements Question {
     }
 
     @Override
-    public synchronized JSONObject toJson() {
-        final Map<String, Object> json = new HashMap<>();
-        json.put("question", this.text.toJson());
-        json.put("expected", this.expected.toJson());
-        if (this.isAnswered()) {
-            json.put("got", this.got.toJson());
+    public JSONObject toJson() {
+        synchronized (this.mutex) {
+            final Map<String, Object> json = new HashMap<>();
+            json.put("question", this.text.toJson());
+            json.put("expected", this.expected.toJson());
+            if (this.isAnswered()) {
+                json.put("got", this.got.toJson());
+            }
+            return new JSONObject(json);
         }
-        return new JSONObject(json);
     }
 
     @Override
-    public synchronized String toDisplayableString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("\n");
-        builder.append("**********************************");
-        builder.append("\n");
-        builder.append(this.text.toDisplayableString());
-        builder.append("\n");
-        if (this.isAnswered()) {
-            if (this.isCorrect()) {
-                builder.append("YOUR ANSWER IS CORRECT!");
-                builder.append("\n");
-                builder.append(
-                    String.format("ANSWER: %s", this.expected.toDisplayableString())
-                );
-                builder.append("\n");
-            } else {
-                builder.append("YOUR ANSWER IS NOT CORRECT!");
-                builder.append("\n");
-                builder.append(
-                    String.format(
-                        "CORRECT ANSWER: %s", this.expected.toDisplayableString()
-                    )
-                );
-                builder.append("\n");
-                builder.append(
-                    String.format(
-                        "PROVIDED ANSWER: %s", this.got.toDisplayableString()
-                    )
-                );
-                builder.append("\n");
+    public String toDisplayableString() {
+        synchronized (this.mutex) {
+            final StringBuilder builder = new StringBuilder();
+            builder.append("\n");
+            builder.append("**********************************");
+            builder.append("\n");
+            builder.append(this.text.toDisplayableString());
+            builder.append("\n");
+            if (this.isAnswered()) {
+                if (this.isCorrect()) {
+                    builder.append("YOUR ANSWER IS CORRECT!");
+                    builder.append("\n");
+                    builder.append(
+                        String.format("ANSWER: %s", this.expected.toDisplayableString())
+                    );
+                    builder.append("\n");
+                } else {
+                    builder.append("YOUR ANSWER IS NOT CORRECT!");
+                    builder.append("\n");
+                    builder.append(
+                        String.format(
+                            "CORRECT ANSWER: %s", this.expected.toDisplayableString()
+                        )
+                    );
+                    builder.append("\n");
+                    builder.append(
+                        String.format(
+                            "PROVIDED ANSWER: %s", this.got.toDisplayableString()
+                        )
+                    );
+                    builder.append("\n");
+                }
             }
+            builder.append("**********************************");
+            return builder.toString();
         }
-        builder.append("**********************************");
-        return builder.toString();
     }
 }
