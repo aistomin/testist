@@ -39,39 +39,51 @@ public final class SimpleTest implements Test {
     private final List<Question> questions;
 
     /**
+     * Mutex object.
+     */
+    private final Object mutex;
+
+    /**
      * Ctor.
      *
      * @param questions Questions provider.
      */
     public SimpleTest(final QuestionsProvider questions) {
         this.questions = questions.questions();
+        this.mutex = new Object();
     }
 
-    public synchronized Boolean hasMoreQuestions() {
-        return this.nextIndex() < this.questions.size();
+    public Boolean hasMoreQuestions() {
+        synchronized (this.mutex) {
+            return this.nextIndex() < this.questions.size();
+        }
     }
 
-    public synchronized Question nextQuestion() {
-        return this.questions.get(this.nextIndex());
+    public Question nextQuestion() {
+        synchronized (this.mutex) {
+            return this.questions.get(this.nextIndex());
+        }
     }
 
-    public synchronized Result currentTestResult() {
-        final List<Question> correct = new ArrayList<>(0);
-        final List<Question> wrong = new ArrayList<>(0);
-        for (final Question question : this.questions) {
-            if (question.isAnswered()) {
-                if (question.isCorrect()) {
-                    correct.add(question);
-                } else {
-                    wrong.add(question);
+    public Result currentTestResult() {
+        synchronized (this.mutex) {
+            final List<Question> correct = new ArrayList<>(0);
+            final List<Question> wrong = new ArrayList<>(0);
+            for (final Question question : this.questions) {
+                if (question.isAnswered()) {
+                    if (question.isCorrect()) {
+                        correct.add(question);
+                    } else {
+                        wrong.add(question);
+                    }
                 }
             }
+            final int cor = correct.size();
+            final int wrg = wrong.size();
+            return new SimpleResult(
+                this.questions.size(), cor + wrg, cor, wrg
+            );
         }
-        final int cor = correct.size();
-        final int wrg = wrong.size();
-        return new SimpleResult(
-            this.questions.size(), cor + wrg, cor, wrg
-        );
     }
 
     /**
