@@ -27,7 +27,6 @@ import org.json.simple.JSONObject;
  * The simple implementation of {@link Question}.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #22 and remove PMD suppression.
  * @todo: Let's fix  Issue #23 and remove PMD suppression.
  * @todo: Let's fix  Issue #24 and remove PMD suppression.
  * @todo: Let's fix  Issue #25 and remove PMD suppression.
@@ -35,7 +34,6 @@ import org.json.simple.JSONObject;
  */
 @SuppressWarnings(
     {
-        "PMD.AppendCharacterWithChar",
         "PMD.ConsecutiveAppendsShouldReuse",
         "PMD.ConsecutiveLiteralAppends",
         "PMD.InsufficientStringBufferDeclaration",
@@ -123,34 +121,28 @@ public final class SimpleQuestion implements Question {
     public String toDisplayableString() {
         synchronized (this.mutex) {
             final StringBuilder builder = new StringBuilder();
-            builder.append("\n");
-            builder.append("**********************************");
-            builder.append("\n");
-            builder.append(this.text.toDisplayableString());
-            builder.append("\n");
+            builder.append("\n**********************************\n");
+            builder.append(
+                String.format("%s%n", this.text.toDisplayableString())
+            );
             if (this.isAnswered()) {
                 if (this.isCorrect()) {
-                    builder.append("YOUR ANSWER IS CORRECT!");
-                    builder.append("\n");
+                    builder.append("YOUR ANSWER IS CORRECT!\n");
                     builder.append(
-                        String.format("ANSWER: %s", this.expected.toDisplayableString())
+                        String.format("ANSWER: %s%n", this.expected.toDisplayableString())
                     );
-                    builder.append("\n");
                 } else {
-                    builder.append("YOUR ANSWER IS NOT CORRECT!");
-                    builder.append("\n");
+                    builder.append("YOUR ANSWER IS NOT CORRECT!\n");
                     builder.append(
                         String.format(
-                            "CORRECT ANSWER: %s", this.expected.toDisplayableString()
+                            "CORRECT ANSWER: %s%n", this.expected.toDisplayableString()
                         )
                     );
-                    builder.append("\n");
                     builder.append(
                         String.format(
-                            "PROVIDED ANSWER: %s", this.got.toDisplayableString()
+                            "PROVIDED ANSWER: %s%n", this.got.toDisplayableString()
                         )
                     );
-                    builder.append("\n");
                 }
             }
             builder.append("**********************************");
