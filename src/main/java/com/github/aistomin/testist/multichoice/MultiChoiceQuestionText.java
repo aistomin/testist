@@ -28,6 +28,7 @@ import org.json.simple.JSONObject;
  * The multi-choice implementation of the {@link QuestionsText}.
  *
  * @since 0.1
+ * @todo: Issue #55. Let's fix FindBugs warning and remove the suppression.
  */
 @SuppressFBWarnings
 public final class MultiChoiceQuestionText implements QuestionsText {
