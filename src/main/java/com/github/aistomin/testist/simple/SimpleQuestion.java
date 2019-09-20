@@ -27,14 +27,12 @@ import org.json.simple.JSONObject;
  * The simple implementation of {@link Question}.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #23 and remove PMD suppression.
  * @todo: Let's fix  Issue #24 and remove PMD suppression.
  * @todo: Let's fix  Issue #25 and remove PMD suppression.
  * @todo: Let's fix  Issue #26 and remove PMD suppression.
  */
 @SuppressWarnings(
     {
-        "PMD.ConsecutiveAppendsShouldReuse",
         "PMD.ConsecutiveLiteralAppends",
         "PMD.InsufficientStringBufferDeclaration",
         "PMD.AvoidDuplicateLiterals"
@@ -121,21 +119,25 @@ public final class SimpleQuestion implements Question {
     public String toDisplayableString() {
         synchronized (this.mutex) {
             final StringBuilder builder = new StringBuilder();
-            builder.append("\n**********************************\n");
             builder.append(
-                String.format("%s%n", this.text.toDisplayableString())
+                String.format(
+                    "%n**********************************%n%s%n",
+                    this.text.toDisplayableString()
+                )
             );
             if (this.isAnswered()) {
                 if (this.isCorrect()) {
-                    builder.append("YOUR ANSWER IS CORRECT!\n");
-                    builder.append(
-                        String.format("ANSWER: %s%n", this.expected.toDisplayableString())
-                    );
-                } else {
-                    builder.append("YOUR ANSWER IS NOT CORRECT!\n");
                     builder.append(
                         String.format(
-                            "CORRECT ANSWER: %s%n", this.expected.toDisplayableString()
+                            "YOUR ANSWER IS CORRECT!%nANSWER: %s%n",
+                            this.expected.toDisplayableString()
+                        )
+                    );
+                } else {
+                    builder.append(
+                        String.format(
+                            "YOUR ANSWER IS NOT CORRECT!%nCORRECT ANSWER: %s%n",
+                            this.expected.toDisplayableString()
                         )
                     );
                     builder.append(
