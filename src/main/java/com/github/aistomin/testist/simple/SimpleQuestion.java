@@ -27,9 +27,7 @@ import org.json.simple.JSONObject;
  * The simple implementation of {@link Question}.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #26 and remove PMD suppression.
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 @SuppressFBWarnings
 public final class SimpleQuestion implements Question {
 
