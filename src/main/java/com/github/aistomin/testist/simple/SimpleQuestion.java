@@ -27,17 +27,16 @@ import org.json.simple.JSONObject;
  * The simple implementation of {@link Question}.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #25 and remove PMD suppression.
  * @todo: Let's fix  Issue #26 and remove PMD suppression.
  */
-@SuppressWarnings(
-    {
-        "PMD.InsufficientStringBufferDeclaration",
-        "PMD.AvoidDuplicateLiterals"
-    }
-)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 @SuppressFBWarnings
 public final class SimpleQuestion implements Question {
+
+    /**
+     * String buffer capacity.
+     */
+    public static final int CAPACITY = 100;
 
     /**
      * Question's text.
@@ -116,7 +115,9 @@ public final class SimpleQuestion implements Question {
     @Override
     public String toDisplayableString() {
         synchronized (this.mutex) {
-            final StringBuilder builder = new StringBuilder();
+            final StringBuilder builder = new StringBuilder(
+                SimpleQuestion.CAPACITY
+            );
             builder.append(
                 String.format(
                     "%n**********************************%n%s%n",
