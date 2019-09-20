@@ -27,13 +27,11 @@ import org.json.simple.JSONObject;
  * The simple implementation of {@link Question}.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #24 and remove PMD suppression.
  * @todo: Let's fix  Issue #25 and remove PMD suppression.
  * @todo: Let's fix  Issue #26 and remove PMD suppression.
  */
 @SuppressWarnings(
     {
-        "PMD.ConsecutiveLiteralAppends",
         "PMD.InsufficientStringBufferDeclaration",
         "PMD.AvoidDuplicateLiterals"
     }
