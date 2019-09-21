@@ -38,7 +38,6 @@ import org.json.simple.JSONObject;
  * @todo: Let's fix  Issue #32 and remove checkstyle suppression.
  * @checkstyle ExecutableStatementCountCheck (200 lines)
  * @todo: Let's fix  Issue #35 and remove PMD suppression.
- * @todo: Let's fix  Issue #38 and remove PMD suppression.
  * @todo: Let's fix  Issue #39 and remove PMD suppression.
  * @todo: Let's fix  Issue #40 and remove PMD suppression.
  * @todo: Let's fix  Issue #41 and remove PMD suppression.
@@ -46,7 +45,6 @@ import org.json.simple.JSONObject;
 @SuppressWarnings(
     {
         "PMD.NPathComplexity",
-        "PMD.ConsecutiveLiteralAppends",
         "PMD.AvoidDuplicateLiterals",
         "PMD.InsufficientStringBufferDeclaration",
         "PMD.CyclomaticComplexity"
