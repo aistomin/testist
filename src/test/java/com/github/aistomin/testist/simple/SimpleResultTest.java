@@ -38,71 +38,71 @@ class SimpleResultTest {
         Assertions.assertEquals(
             nulls, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(null, 0, 0, 0)
+                () -> new SimpleResult(null, 0, 0, 0).isFinished()
             ).getMessage()
         );
         Assertions.assertEquals(
             nulls,
             Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(0, null, 0, 0)
+                () -> new SimpleResult(0, null, 0, 0).isPassed()
             ).getMessage()
         );
         Assertions.assertEquals(
             nulls, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(0, 0, null, 0)
+                () -> new SimpleResult(0, 0, null, 0).toDisplayableString()
             ).getMessage()
         );
         Assertions.assertEquals(
             nulls, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(0, 0, 0, null)
+                () -> new SimpleResult(0, 0, 0, null).toJson()
             ).getMessage()
         );
         Assertions.assertEquals(
             nulls,
             Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(1, 1, 1, 0, null)
+                () -> new SimpleResult(1, 1, 1, 0, null).isPassed()
             ).getMessage()
         );
         final String positives = "All the constructor parameters must be positive.";
         Assertions.assertEquals(
             positives, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(-1, 0, 0, 0)
+                () -> new SimpleResult(-1, 0, 0, 0).isFinished()
             ).getMessage()
         );
         Assertions.assertEquals(
             positives, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(0, -1, 0, 0)
+                () -> new SimpleResult(0, -1, 0, 0).isPassed()
             ).getMessage()
         );
         Assertions.assertEquals(
             positives, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(0, 0, -1, 0)
+                () -> new SimpleResult(0, 0, -1, 0).isFinished()
             ).getMessage()
         );
         Assertions.assertEquals(
             positives, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(0, 0, 0, -1)
+                () -> new SimpleResult(0, 0, 0, -1).isPassed()
             ).getMessage()
         );
         final String common = "Constructor parameters must not contradict the common sense.";
         Assertions.assertEquals(
             common, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(6, 7, 4, 3)
+                () -> new SimpleResult(6, 7, 4, 3).isPassed()
             ).getMessage()
         );
         Assertions.assertEquals(
             common, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(7, 6, 4, 3)
+                () -> new SimpleResult(7, 6, 4, 3).isFinished()
             ).getMessage()
         );
         Assertions.assertNotNull(
@@ -113,13 +113,13 @@ class SimpleResultTest {
         Assertions.assertEquals(
             percentage, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(1, 1, 1, 0, -1)
+                () -> new SimpleResult(1, 1, 1, 0, -1).isPassed()
             ).getMessage()
         );
         Assertions.assertEquals(
             percentage, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(1, 1, 1, 0, 101)
+                () -> new SimpleResult(1, 1, 1, 0, 101).isFinished()
             ).getMessage()
         );
     }

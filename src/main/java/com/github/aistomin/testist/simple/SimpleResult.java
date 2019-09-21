@@ -39,7 +39,6 @@ import org.json.simple.JSONObject;
  * @checkstyle ExecutableStatementCountCheck (200 lines)
  * @todo: Let's fix  Issue #33 and remove checkstyle suppression.
  * @checkstyle AnnotationUseStyleCheck (200 lines)
- * @todo: Let's fix  Issue #34 and remove PMD suppression.
  * @todo: Let's fix  Issue #35 and remove PMD suppression.
  * @todo: Let's fix  Issue #36 and remove PMD suppression.
  * @todo: Let's fix  Issue #37 and remove PMD suppression.
@@ -50,7 +49,6 @@ import org.json.simple.JSONObject;
  */
 @SuppressWarnings(
     {
-        "PMD.ConstructorOnlyInitializesOrCallOtherConstructors",
         "PMD.NPathComplexity",
         "PMD.AppendCharacterWithChar",
         "PMD.ConsecutiveAppendsShouldReuse",
@@ -122,34 +120,6 @@ public final class SimpleResult implements Result {
         final Integer wrong,
         final Integer percentage
     ) {
-        if (
-            total == null || answered == null
-                || correct == null || wrong == null || percentage == null
-        ) {
-            throw new IllegalArgumentException(
-                "All the constructor parameters must be provided."
-            );
-        }
-        if (percentage < 0 || percentage > 100) {
-            throw new IllegalArgumentException(
-                "'percentage' parameter must be between 0 and 100."
-            );
-        }
-        if (
-            total < 0 || answered < 0
-                || correct < 0 || wrong < 0
-        ) {
-            throw new IllegalArgumentException(
-                "All the constructor parameters must be positive."
-            );
-        }
-        if (
-            total < answered || answered != (correct + wrong)
-        ) {
-            throw new IllegalArgumentException(
-                "Constructor parameters must not contradict the common sense."
-            );
-        }
         this.total = total;
         this.answered = answered;
         this.correct = correct;
@@ -159,17 +129,20 @@ public final class SimpleResult implements Result {
 
     @Override
     public Boolean isFinished() {
+        this.validate();
         return this.total.equals(this.answered);
     }
 
     @Override
     public Boolean isPassed() {
+        this.validate();
         return this.isFinished()
             && (this.correct * 100) / this.total >= this.percentage;
     }
 
     @Override
     public JSONObject toJson() {
+        this.validate();
         final Map<String, String> json = new HashMap<>();
         json.put("total", this.total.toString());
         json.put("answered", this.answered.toString());
@@ -181,6 +154,7 @@ public final class SimpleResult implements Result {
 
     @Override
     public String toDisplayableString() {
+        this.validate();
         final StringBuilder builder = new StringBuilder();
         builder.append("%n");
         builder.append("**********************************");
@@ -215,5 +189,40 @@ public final class SimpleResult implements Result {
         }
         builder.append("**********************************");
         return builder.toString();
+    }
+
+    /**
+     * Validate the state of the object.
+     */
+    private void validate() {
+        if (
+            this.total == null || this.answered == null || this.correct == null
+                || this.wrong == null || this.percentage == null
+        ) {
+            throw new IllegalArgumentException(
+                "All the constructor parameters must be provided."
+            );
+        }
+        if (this.percentage < 0 || this.percentage > 100) {
+            throw new IllegalArgumentException(
+                "'percentage' parameter must be between 0 and 100."
+            );
+        }
+        if (
+            this.total < 0 || this.answered < 0
+                || this.correct < 0 || this.wrong < 0
+        ) {
+            throw new IllegalArgumentException(
+                "All the constructor parameters must be positive."
+            );
+        }
+        if (
+            this.total < this.answered
+                || this.answered != (this.correct + this.wrong)
+        ) {
+            throw new IllegalArgumentException(
+                "Constructor parameters must not contradict the common sense."
+            );
+        }
     }
 }
