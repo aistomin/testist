@@ -26,8 +26,6 @@ import java.util.List;
  * The simple implementation of {@link Test}.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #42 and remove checkstyle suppression.
- * @checkstyle IllegalTokenCheck (100 lines)
  */
 public final class SimpleTest implements Test {
 
@@ -91,9 +89,9 @@ public final class SimpleTest implements Test {
      */
     private Integer nextIndex() {
         int index = this.questions.size();
-        for (int counter = 0; counter < this.questions.size(); counter++) {
-            if (!this.questions.get(counter).isAnswered()) {
-                index = counter;
+        for (final Question question : this.questions) {
+            if (!question.isAnswered()) {
+                index = this.questions.indexOf(question);
                 break;
             }
         }
