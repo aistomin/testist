@@ -28,9 +28,7 @@ import java.util.List;
  * @since 0.1
  * @todo: Let's fix  Issue #42 and remove checkstyle suppression.
  * @checkstyle IllegalTokenCheck (100 lines)
- * @todo: Let's fix  Issue #43 and remove PMD suppression.
  */
-@SuppressWarnings("PMD.AvoidSynchronizedAtMethodLevel")
 public final class SimpleTest implements Test {
 
     /**
