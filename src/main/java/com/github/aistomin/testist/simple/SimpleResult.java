@@ -38,17 +38,20 @@ import org.json.simple.JSONObject;
  * @todo: Let's fix  Issue #32 and remove checkstyle suppression.
  * @checkstyle ExecutableStatementCountCheck (200 lines)
  * @todo: Let's fix  Issue #35 and remove PMD suppression.
- * @todo: Let's fix  Issue #40 and remove PMD suppression.
  * @todo: Let's fix  Issue #41 and remove PMD suppression.
  */
 @SuppressWarnings(
     {
         "PMD.NPathComplexity",
-        "PMD.InsufficientStringBufferDeclaration",
         "PMD.CyclomaticComplexity"
     }
 )
 public final class SimpleResult implements Result {
+
+    /**
+     * String buffer initial capacity.
+     */
+    private static final int CAPACITY = 100;
 
     /**
      * The total amount of questions in the test.
@@ -145,7 +148,7 @@ public final class SimpleResult implements Result {
     @Override
     public String toDisplayableString() {
         this.validate();
-        final StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder(SimpleResult.CAPACITY);
         builder.append("%n**********************************%n");
         if (this.isFinished()) {
             builder.append("YOUR TEST IS FINISHED.%n");
