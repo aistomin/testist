@@ -24,26 +24,21 @@ import java.util.List;
  * The sample/test implementation of the {@link QuestionsProvider}.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #46 and remove PMD suppression.
  * @todo: Let's fix  Issue #47 and remove PMD suppression.
  */
-@SuppressWarnings(
-    {
-        "PMD.ConstructorShouldDoInitialization",
-        "PMD.ConstructorOnlyInitializesOrCallOtherConstructors"
-    }
-)
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class TestQuestionsProvider implements QuestionsProvider {
 
     /**
      * Test questions list.
      */
-    private final List<Question> items = new ArrayList<>(0);
+    private final List<Question> items;
 
     /**
      * Ctor.
      */
     TestQuestionsProvider() {
+        this.items = new ArrayList<>(0);
         this.items.add(
             new SimpleQuestion(
                 new SimpleText("1 + 1 = ?"), new SimpleAnswer("2")
