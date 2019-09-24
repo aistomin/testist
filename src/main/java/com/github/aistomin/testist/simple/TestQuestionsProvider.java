@@ -17,16 +17,14 @@ package com.github.aistomin.testist.simple;
 
 import com.github.aistomin.testist.Question;
 import com.github.aistomin.testist.QuestionsProvider;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * The sample/test implementation of the {@link QuestionsProvider}.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #47 and remove PMD suppression.
  */
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class TestQuestionsProvider implements QuestionsProvider {
 
     /**
@@ -38,28 +36,19 @@ final class TestQuestionsProvider implements QuestionsProvider {
      * Ctor.
      */
     TestQuestionsProvider() {
-        this.items = new ArrayList<>(0);
-        this.items.add(
+        this.items = Arrays.asList(
             new SimpleQuestion(
                 new SimpleText("1 + 1 = ?"), new SimpleAnswer("2")
-            )
-        );
-        this.items.add(
+            ),
             new SimpleQuestion(
                 new SimpleText("3 + 6 = ?"), new SimpleAnswer("9")
-            )
-        );
-        this.items.add(
+            ),
             new SimpleQuestion(
                 new SimpleText("6 - 2 = ?"), new SimpleAnswer("4")
-            )
-        );
-        this.items.add(
+            ),
             new SimpleQuestion(
                 new SimpleText("2 * 2 = ?"), new SimpleAnswer("4")
-            )
-        );
-        this.items.add(
+            ),
             new SimpleQuestion(
                 new SimpleText("6 / 2 = ?"), new SimpleAnswer("3")
             )
