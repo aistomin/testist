@@ -107,7 +107,7 @@ public final class SimpleResult implements Result {
         json.put("total", this.data.total.toString());
         json.put("answered", this.data.answered.toString());
         json.put("correct", this.data.correct.toString());
-        json.put("wrong", this.wrong().toString());
+        json.put("wrong", this.data.wrong().toString());
         json.put("percentage", this.percentage.toString());
         return new JSONObject(json);
     }
@@ -131,7 +131,7 @@ public final class SimpleResult implements Result {
         builder.append(
             String.format(
                 "CORRECT: %d%nWRONG: %d%nPASSING PERCENTAGE: %d%n",
-                this.data.correct, this.wrong(), this.percentage
+                this.data.correct, this.data.wrong(), this.percentage
             )
         );
         if (this.isPassed()) {
@@ -184,15 +184,6 @@ public final class SimpleResult implements Result {
     }
 
     /**
-     * Amount of wrong answers.
-     *
-     * @return Amount of wrong answers.
-     */
-    private Integer wrong() {
-        return this.data.answered - this.data.correct;
-    }
-
-    /**
      * User's input data.
      *
      * @since 0.1
@@ -229,6 +220,15 @@ public final class SimpleResult implements Result {
             this.total = total;
             this.answered = answered;
             this.correct = correct;
+        }
+
+        /**
+         * Amount of wrong answers.
+         *
+         * @return Amount of wrong answers.
+         */
+        private Integer wrong() {
+            return this.answered - this.correct;
         }
     }
 }
