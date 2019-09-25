@@ -15,6 +15,7 @@
  */
 package com.github.aistomin.testist.simple;
 
+import com.github.aistomin.testist.MagicNumbers;
 import com.github.aistomin.testist.Result;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,8 +28,6 @@ import org.json.simple.JSONObject;
  * @since 0.1
  * @todo: Let's fix  Issue #27 and remove checkstyle suppression.
  * @checkstyle ParameterNumberCheck (200 lines)
- * @todo: Let's fix  Issue #28 and remove checkstyle suppression.
- * @checkstyle MagicNumberCheck (200 lines)
  * @todo: Let's fix  Issue #29 and remove checkstyle suppression.
  * @checkstyle CyclomaticComplexityCheck (200 lines)
  * @todo: Let's fix  Issue #30 and remove checkstyle suppression.
@@ -47,11 +46,6 @@ import org.json.simple.JSONObject;
     }
 )
 public final class SimpleResult implements Result {
-
-    /**
-     * String buffer initial capacity.
-     */
-    private static final int CAPACITY = 100;
 
     /**
      * The total amount of questions in the test.
@@ -93,7 +87,7 @@ public final class SimpleResult implements Result {
         final Integer correct,
         final Integer wrong
     ) {
-        this(total, answered, correct, wrong, 100);
+        this(total, answered, correct, wrong, MagicNumbers.HUNDRED.number());
     }
 
     /**
@@ -130,7 +124,8 @@ public final class SimpleResult implements Result {
     public Boolean isPassed() {
         this.validate();
         return this.isFinished()
-            && (this.correct * 100) / this.total >= this.percentage;
+            && (this.correct * MagicNumbers.HUNDRED.number())
+            / this.total >= this.percentage;
     }
 
     @Override
@@ -148,7 +143,8 @@ public final class SimpleResult implements Result {
     @Override
     public String toDisplayableString() {
         this.validate();
-        final StringBuilder builder = new StringBuilder(SimpleResult.CAPACITY);
+        final StringBuilder builder =
+            new StringBuilder(MagicNumbers.HUNDRED.number());
         builder.append("%n**********************************%n");
         if (this.isFinished()) {
             builder.append("YOUR TEST IS FINISHED.%n");
@@ -189,7 +185,10 @@ public final class SimpleResult implements Result {
                 "All the constructor parameters must be provided."
             );
         }
-        if (this.percentage < 0 || this.percentage > 100) {
+        if (
+            this.percentage < 0
+                || this.percentage > MagicNumbers.HUNDRED.number()
+        ) {
             throw new IllegalArgumentException(
                 "'percentage' parameter must be between 0 and 100."
             );
