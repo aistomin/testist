@@ -19,34 +19,136 @@ package com.github.aistomin.testist.multichoice;
  * The enum of available choices in multi-choice test.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #17 and remove checkstyle suppression.
- * @checkstyle JavadocVariableCheck (100 lines)
  */
 public enum Choice {
+
+    /**
+     * Option A.
+     */
     A,
+
+    /**
+     * Option B.
+     */
     B,
+
+    /**
+     * Option C.
+     */
     C,
+
+    /**
+     * Option D.
+     */
     D,
+
+    /**
+     * Option E.
+     */
     E,
+
+    /**
+     * Option F.
+     */
     F,
+
+    /**
+     * Option G.
+     */
     G,
+
+    /**
+     * Option H.
+     */
     H,
+
+    /**
+     * Option I.
+     */
     I,
+
+    /**
+     * Option J.
+     */
     J,
+
+    /**
+     * Option K.
+     */
     K,
+
+    /**
+     * Option L.
+     */
     L,
+
+    /**
+     * Option M.
+     */
     M,
+
+    /**
+     * Option N.
+     */
     N,
+
+    /**
+     * Option O.
+     */
     O,
+
+    /**
+     * Option P.
+     */
     P,
+
+    /**
+     * Option Q.
+     */
     Q,
+
+    /**
+     * Option R.
+     */
     R,
+
+    /**
+     * Option S.
+     */
     S,
+
+    /**
+     * Option T.
+     */
     T,
+
+    /**
+     * Option U.
+     */
     U,
+
+    /**
+     * Option V.
+     */
     V,
+
+    /**
+     * Option W.
+     */
     W,
+
+    /**
+     * Option X.
+     */
     X,
+
+    /**
+     * Option Y.
+     */
     Y,
+
+    /**
+     * Option Z.
+     */
     Z
 }
