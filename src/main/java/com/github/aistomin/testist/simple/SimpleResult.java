@@ -26,8 +26,6 @@ import org.json.simple.JSONObject;
  * is correct.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #27 and remove checkstyle suppression.
- * @checkstyle ParameterNumberCheck (200 lines)
  * @todo: Let's fix  Issue #29 and remove checkstyle suppression.
  * @checkstyle CyclomaticComplexityCheck (200 lines)
  * @todo: Let's fix  Issue #30 and remove checkstyle suppression.
@@ -48,24 +46,9 @@ import org.json.simple.JSONObject;
 public final class SimpleResult implements Result {
 
     /**
-     * The total amount of questions in the test.
+     * User's input data.
      */
-    private final Integer total;
-
-    /**
-     * The amount of answered questions in the test.
-     */
-    private final Integer answered;
-
-    /**
-     * The amount of correctly answered questions in the test.
-     */
-    private final Integer correct;
-
-    /**
-     * The amount of wrongly answered questions in the test.
-     */
-    private final Integer wrong;
+    private final Input data;
 
     /**
      * The percentage of the correct answers which must be reached to pass the
@@ -79,63 +62,52 @@ public final class SimpleResult implements Result {
      * @param total The total amount of questions in the test.
      * @param answered The amount of answered questions in the test.
      * @param correct The amount of correctly answered questions in the test.
-     * @param wrong The amount of wrongly answered questions in the test.
      */
     public SimpleResult(
         final Integer total,
         final Integer answered,
-        final Integer correct,
-        final Integer wrong
+        final Integer correct
     ) {
-        this(total, answered, correct, wrong, MagicNumbers.HUNDRED.number());
+        this(new Input(total, answered, correct), MagicNumbers.HUNDRED.number());
     }
 
     /**
      * Ctor.
      *
-     * @param total The total amount of questions in the test.
-     * @param answered The amount of answered questions in the test.
-     * @param correct The amount of correctly answered questions in the test.
-     * @param wrong The amount of wrongly answered questions in the test.
+     * @param input User's input data.
      * @param percentage The percentage of the correct answers which must be
      *  reached to pass the test.
      */
     public SimpleResult(
-        final Integer total,
-        final Integer answered,
-        final Integer correct,
-        final Integer wrong,
+        final Input input,
         final Integer percentage
     ) {
-        this.total = total;
-        this.answered = answered;
-        this.correct = correct;
-        this.wrong = wrong;
+        this.data = input;
         this.percentage = percentage;
     }
 
     @Override
     public Boolean isFinished() {
         this.validate();
-        return this.total.equals(this.answered);
+        return this.data.total.equals(this.data.answered);
     }
 
     @Override
     public Boolean isPassed() {
         this.validate();
         return this.isFinished()
-            && (this.correct * MagicNumbers.HUNDRED.number())
-            / this.total >= this.percentage;
+            && (this.data.correct * MagicNumbers.HUNDRED.number())
+            / this.data.total >= this.percentage;
     }
 
     @Override
     public JSONObject toJson() {
         this.validate();
         final Map<String, String> json = new HashMap<>();
-        json.put("total", this.total.toString());
-        json.put("answered", this.answered.toString());
-        json.put("correct", this.correct.toString());
-        json.put("wrong", this.wrong.toString());
+        json.put("total", this.data.total.toString());
+        json.put("answered", this.data.answered.toString());
+        json.put("correct", this.data.correct.toString());
+        json.put("wrong", this.wrong().toString());
         json.put("percentage", this.percentage.toString());
         return new JSONObject(json);
     }
@@ -152,14 +124,14 @@ public final class SimpleResult implements Result {
             builder.append(
                 String.format(
                     "YOU TEST IS NOT FINISHED. %nTOTAL: %d, %nANSWERED: %d%n",
-                    this.total, this.answered
+                    this.data.total, this.data.answered
                 )
             );
         }
         builder.append(
             String.format(
                 "CORRECT: %d%nWRONG: %d%nPASSING PERCENTAGE: %d%n",
-                this.correct, this.wrong, this.percentage
+                this.data.correct, this.wrong(), this.percentage
             )
         );
         if (this.isPassed()) {
@@ -178,8 +150,8 @@ public final class SimpleResult implements Result {
      */
     private void validate() {
         if (
-            this.total == null || this.answered == null || this.correct == null
-                || this.wrong == null || this.percentage == null
+            this.data.total == null || this.data.answered == null
+                || this.data.correct == null || this.percentage == null
         ) {
             throw new IllegalArgumentException(
                 "All the constructor parameters must be provided."
@@ -194,20 +166,69 @@ public final class SimpleResult implements Result {
             );
         }
         if (
-            this.total < 0 || this.answered < 0
-                || this.correct < 0 || this.wrong < 0
+            this.data.total < 0 || this.data.answered < 0
+                || this.data.correct < 0
         ) {
             throw new IllegalArgumentException(
                 "All the constructor parameters must be positive."
             );
         }
         if (
-            this.total < this.answered
-                || this.answered != (this.correct + this.wrong)
+            this.data.total < this.data.answered
+                || this.data.answered < this.data.correct
         ) {
             throw new IllegalArgumentException(
                 "Constructor parameters must not contradict the common sense."
             );
+        }
+    }
+
+    /**
+     * Amount of wrong answers.
+     *
+     * @return Amount of wrong answers.
+     */
+    private Integer wrong() {
+        return this.data.answered - this.data.correct;
+    }
+
+    /**
+     * User's input data.
+     *
+     * @since 0.1
+     */
+    public static final class Input {
+
+        /**
+         * The total amount of questions in the test.
+         */
+        private final Integer total;
+
+        /**
+         * The amount of answered questions in the test.
+         */
+        private final Integer answered;
+
+        /**
+         * The amount of correctly answered questions in the test.
+         */
+        private final Integer correct;
+
+        /**
+         * Ctor.
+         *
+         * @param total Total amount of questions in the test.
+         * @param answered Amount of answered questions in the test.
+         * @param correct Amount of correctly answered questions in the test.
+         */
+        public Input(
+            final Integer total,
+            final Integer answered,
+            final Integer correct
+        ) {
+            this.total = total;
+            this.answered = answered;
+            this.correct = correct;
         }
     }
 }

@@ -38,88 +38,64 @@ class SimpleResultTest {
         Assertions.assertEquals(
             nulls, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(null, 0, 0, 0).isFinished()
+                () -> new SimpleResult(null, 0, 0).isFinished()
             ).getMessage()
         );
         Assertions.assertEquals(
             nulls,
             Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(0, null, 0, 0).isPassed()
+                () -> new SimpleResult(0, null, 0).isPassed()
             ).getMessage()
         );
         Assertions.assertEquals(
             nulls, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(0, 0, null, 0).toDisplayableString()
-            ).getMessage()
-        );
-        Assertions.assertEquals(
-            nulls, Assertions.assertThrows(
-                IllegalArgumentException.class,
-                () -> new SimpleResult(0, 0, 0, null).toJson()
-            ).getMessage()
-        );
-        Assertions.assertEquals(
-            nulls,
-            Assertions.assertThrows(
-                IllegalArgumentException.class,
-                () -> new SimpleResult(1, 1, 1, 0, null).isPassed()
+                () -> new SimpleResult(0, 0, null).toDisplayableString()
             ).getMessage()
         );
         final String positives = "All the constructor parameters must be positive.";
         Assertions.assertEquals(
             positives, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(-1, 0, 0, 0).isFinished()
+                () -> new SimpleResult(-1, 0, 0).isFinished()
             ).getMessage()
         );
         Assertions.assertEquals(
             positives, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(0, -1, 0, 0).isPassed()
+                () -> new SimpleResult(0, -1, 0).isPassed()
             ).getMessage()
         );
         Assertions.assertEquals(
             positives, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(0, 0, -1, 0).isFinished()
-            ).getMessage()
-        );
-        Assertions.assertEquals(
-            positives, Assertions.assertThrows(
-                IllegalArgumentException.class,
-                () -> new SimpleResult(0, 0, 0, -1).isPassed()
+                () -> new SimpleResult(0, 0, -1).isFinished()
             ).getMessage()
         );
         final String common = "Constructor parameters must not contradict the common sense.";
         Assertions.assertEquals(
             common, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(6, 7, 4, 3).isPassed()
+                () -> new SimpleResult(6, 7, 4).isPassed()
             ).getMessage()
-        );
-        Assertions.assertEquals(
-            common, Assertions.assertThrows(
-                IllegalArgumentException.class,
-                () -> new SimpleResult(7, 6, 4, 3).isFinished()
-            ).getMessage()
-        );
-        Assertions.assertNotNull(
-            new SimpleResult(7, 6, 4, 2).toDisplayableString()
         );
         final String percentage =
             "'percentage' parameter must be between 0 and 100.";
         Assertions.assertEquals(
             percentage, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(1, 1, 1, 0, -1).isPassed()
+                () -> new SimpleResult(
+                    new SimpleResult.Input(1, 1, 1), -1
+                ).isPassed()
             ).getMessage()
         );
         Assertions.assertEquals(
             percentage, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(1, 1, 1, 0, 101).isFinished()
+                () -> new SimpleResult(
+                    new SimpleResult.Input(1, 1, 1), 101
+                ).isFinished()
             ).getMessage()
         );
     }
@@ -130,11 +106,11 @@ class SimpleResultTest {
     @Test
     void testIsFinished() {
         Assertions.assertTrue(
-            new SimpleResult(2, 2, 1, 1, 60)
+            new SimpleResult(new SimpleResult.Input(2, 2, 1), 60)
                 .isFinished()
         );
         Assertions.assertFalse(
-            new SimpleResult(3, 1, 1, 0, 50)
+            new SimpleResult(new SimpleResult.Input(3, 1, 1), 50)
                 .isFinished()
         );
     }
@@ -145,19 +121,19 @@ class SimpleResultTest {
     @Test
     void testIsPassed() {
         Assertions.assertFalse(
-            new SimpleResult(3, 2, 2, 0, 50)
+            new SimpleResult(new SimpleResult.Input(3, 2, 2), 50)
                 .isPassed()
         );
         Assertions.assertFalse(
-            new SimpleResult(4, 4, 2, 2, 60)
+            new SimpleResult(new SimpleResult.Input(4, 4, 2), 60)
                 .isPassed()
         );
         Assertions.assertTrue(
-            new SimpleResult(5, 5, 3, 2, 50)
+            new SimpleResult(new SimpleResult.Input(5, 5, 3), 50)
                 .isPassed()
         );
         Assertions.assertTrue(
-            new SimpleResult(6, 6, 6, 0, 50)
+            new SimpleResult(new SimpleResult.Input(6, 6, 6), 50)
                 .isPassed()
         );
     }
@@ -173,7 +149,7 @@ class SimpleResultTest {
         final int wrong = 2;
         final int percentage = 50;
         final JSONObject json = new SimpleResult(
-            total, answered, correct, wrong, percentage
+            new SimpleResult.Input(total, answered, correct), percentage
         ).toJson();
         Assertions.assertEquals(total, Integer.parseInt(json.get("total").toString()));
         Assertions.assertEquals(
@@ -188,8 +164,9 @@ class SimpleResultTest {
 
     @Test
     void toDisplayableString() {
-        final String partial = new SimpleResult(7, 6, 4, 2, 90)
-            .toDisplayableString();
+        final String partial =
+            new SimpleResult(new SimpleResult.Input(7, 6, 4), 90)
+                .toDisplayableString();
         Assertions.assertTrue(partial.contains("YOU TEST IS NOT FINISHED."));
         Assertions.assertTrue(partial.contains("TOTAL: 7"));
         Assertions.assertTrue(partial.contains("ANSWERED: 6"));
@@ -197,15 +174,17 @@ class SimpleResultTest {
         Assertions.assertTrue(partial.contains("WRONG: 2"));
         Assertions.assertTrue(partial.contains("PASSING PERCENTAGE: 90"));
         Assertions.assertTrue(partial.contains("PLEASE CONTINUE."));
-        final String failed = new SimpleResult(7, 7, 5, 2, 90)
-            .toDisplayableString();
+        final String failed =
+            new SimpleResult(new SimpleResult.Input(7, 7, 5), 90)
+                .toDisplayableString();
         Assertions.assertTrue(failed.contains("YOUR TEST IS FINISHED."));
         Assertions.assertTrue(failed.contains("CORRECT: 5"));
         Assertions.assertTrue(failed.contains("WRONG: 2"));
         Assertions.assertTrue(failed.contains("PASSING PERCENTAGE: 90"));
         Assertions.assertTrue(failed.contains("PREPARE AND TRY AGAIN LATER"));
-        final String success = new SimpleResult(7, 7, 5, 2, 50)
-            .toDisplayableString();
+        final String success =
+            new SimpleResult(new SimpleResult.Input(7, 7, 5), 50)
+                .toDisplayableString();
         Assertions.assertTrue(success.contains("YOUR TEST IS FINISHED."));
         Assertions.assertTrue(success.contains("CORRECT: 5"));
         Assertions.assertTrue(success.contains("WRONG: 2"));

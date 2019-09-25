@@ -77,7 +77,7 @@ public final class SimpleTest implements Test {
             final int cor = correct.size();
             final int wrg = wrong.size();
             return new SimpleResult(
-                this.questions.size(), cor + wrg, cor, wrg
+                this.questions.size(), cor + wrg, cor
             );
         }
     }
