@@ -26,8 +26,6 @@ import org.json.simple.JSONObject;
  * is correct.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #32 and remove checkstyle suppression.
- * @checkstyle ExecutableStatementCountCheck (200 lines)
  * @todo: Let's fix  Issue #35 and remove PMD suppression.
  * @todo: Let's fix  Issue #41 and remove PMD suppression.
  */
