@@ -26,8 +26,6 @@ import org.json.simple.JSONObject;
  * is correct.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #29 and remove checkstyle suppression.
- * @checkstyle CyclomaticComplexityCheck (200 lines)
  * @todo: Let's fix  Issue #30 and remove checkstyle suppression.
  * @checkstyle NPathComplexityCheck (200 lines)
  * @todo: Let's fix  Issue #31 and remove checkstyle suppression.
@@ -149,6 +147,43 @@ public final class SimpleResult implements Result {
      * Validate the state of the object.
      */
     private void validate() {
+        this.checkAllCtorParams();
+        this.checkPercentage();
+        this.checkCtorParametersLogicallyCorrect();
+    }
+
+    /**
+     * Check that constructor parameters do not contradict the common sense.
+     */
+    private void checkCtorParametersLogicallyCorrect() {
+        if (
+            this.data.total < this.data.answered
+                || this.data.answered < this.data.correct
+        ) {
+            throw new IllegalArgumentException(
+                "Constructor parameters must not contradict the common sense."
+            );
+        }
+    }
+
+    /**
+     * Check that percentage parameter is valid.
+     */
+    private void checkPercentage() {
+        if (
+            this.percentage < 0
+                || this.percentage > MagicNumbers.HUNDRED.number()
+        ) {
+            throw new IllegalArgumentException(
+                "'percentage' parameter must be between 0 and 100."
+            );
+        }
+    }
+
+    /**
+     * Check that all the constructor parameters provided.
+     */
+    private void checkAllCtorParams() {
         if (
             this.data.total == null || this.data.answered == null
                 || this.data.correct == null || this.percentage == null
@@ -158,27 +193,11 @@ public final class SimpleResult implements Result {
             );
         }
         if (
-            this.percentage < 0
-                || this.percentage > MagicNumbers.HUNDRED.number()
-        ) {
-            throw new IllegalArgumentException(
-                "'percentage' parameter must be between 0 and 100."
-            );
-        }
-        if (
             this.data.total < 0 || this.data.answered < 0
                 || this.data.correct < 0
         ) {
             throw new IllegalArgumentException(
                 "All the constructor parameters must be positive."
-            );
-        }
-        if (
-            this.data.total < this.data.answered
-                || this.data.answered < this.data.correct
-        ) {
-            throw new IllegalArgumentException(
-                "Constructor parameters must not contradict the common sense."
             );
         }
     }
