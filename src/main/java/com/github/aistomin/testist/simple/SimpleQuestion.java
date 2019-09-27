@@ -27,6 +27,7 @@ import org.json.simple.JSONObject;
  * The simple implementation of {@link Question}.
  *
  * @since 0.1
+ * @todo: Issue #82. Let's fix FindBugs warning and remove the suppression.
  */
 @SuppressFBWarnings
 public final class SimpleQuestion implements Question {
