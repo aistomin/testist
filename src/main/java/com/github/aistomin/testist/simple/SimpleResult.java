@@ -26,9 +26,7 @@ import org.json.simple.JSONObject;
  * is correct.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #41 and remove PMD suppression.
  */
-@SuppressWarnings("PMD.CyclomaticComplexity")
 public final class SimpleResult implements Result {
 
     /**
