@@ -170,20 +170,27 @@ public final class SimpleResult implements Result {
      * Check that all the constructor parameters provided.
      */
     private void checkAllCtorParams() {
-        if (
-            this.data.total == null || this.data.answered == null
-                || this.data.correct == null || this.percentage == null
-        ) {
-            throw new IllegalArgumentException(
-                "All the constructor parameters must be provided."
-            );
-        }
+        this.checkCtorParamsAreNotNull();
         if (
             this.data.total < 0 || this.data.answered < 0
                 || this.data.correct < 0
         ) {
             throw new IllegalArgumentException(
                 "All the constructor parameters must be positive."
+            );
+        }
+    }
+
+    /**
+     * Check that all the constructor parameters are provided.
+     */
+    private void checkCtorParamsAreNotNull() {
+        if (
+            this.data.total == null || this.data.answered == null
+                || this.data.correct == null || this.percentage == null
+        ) {
+            throw new IllegalArgumentException(
+                "All the constructor parameters must be provided."
             );
         }
     }
