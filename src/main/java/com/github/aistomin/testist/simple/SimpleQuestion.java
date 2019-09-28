@@ -18,8 +18,9 @@ package com.github.aistomin.testist.simple;
 import com.github.aistomin.testist.Answer;
 import com.github.aistomin.testist.Question;
 import com.github.aistomin.testist.QuestionsText;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONObject;
 
@@ -27,9 +28,7 @@ import org.json.simple.JSONObject;
  * The simple implementation of {@link Question}.
  *
  * @since 0.1
- * @todo: Issue #82. Let's fix FindBugs warning and remove the suppression.
  */
-@SuppressFBWarnings
 public final class SimpleQuestion implements Question {
 
     /**
@@ -50,7 +49,7 @@ public final class SimpleQuestion implements Question {
     /**
      * The answer which we got from the client.
      */
-    private Answer got;
+    private final List<Answer> got;
 
     /**
      * Mutex object.
@@ -67,29 +66,32 @@ public final class SimpleQuestion implements Question {
         this.text = text;
         this.expected = answer;
         this.mutex = new Object();
+        this.got = new ArrayList<>(1);
     }
 
     @Override
     public void answer(final Answer answer) {
         synchronized (this.mutex) {
-            if (this.got != null) {
-                throw new IllegalStateException("Can not answer the same question twice.");
+            if (this.got.size() != 0) {
+                throw new IllegalStateException(
+                    "Can not answer the same question twice."
+                );
             }
-            this.got = answer;
+            this.got.add(answer);
         }
     }
 
     @Override
     public Boolean isCorrect() {
         synchronized (this.mutex) {
-            return this.isAnswered() && this.expected.validate(this.got);
+            return this.isAnswered() && this.expected.validate(this.got.get(0));
         }
     }
 
     @Override
     public Boolean isAnswered() {
         synchronized (this.mutex) {
-            return this.got != null;
+            return this.got.size() != 0;
         }
     }
 
@@ -105,7 +107,7 @@ public final class SimpleQuestion implements Question {
             json.put("question", this.text.toJson());
             json.put("expected", this.expected.toJson());
             if (this.isAnswered()) {
-                json.put("got", this.got.toJson());
+                json.put("got", this.got.get(0).toJson());
             }
             return new JSONObject(json);
         }
@@ -140,7 +142,8 @@ public final class SimpleQuestion implements Question {
                     );
                     builder.append(
                         String.format(
-                            "PROVIDED ANSWER: %s%n", this.got.toDisplayableString()
+                            "PROVIDED ANSWER: %s%n",
+                            this.got.get(0).toDisplayableString()
                         )
                     );
                 }
