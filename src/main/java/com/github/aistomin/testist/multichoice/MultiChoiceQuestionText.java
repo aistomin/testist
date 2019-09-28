@@ -16,7 +16,6 @@
 package com.github.aistomin.testist.multichoice;
 
 import com.github.aistomin.testist.QuestionsText;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -28,9 +27,7 @@ import org.json.simple.JSONObject;
  * The multi-choice implementation of the {@link QuestionsText}.
  *
  * @since 0.1
- * @todo: Issue #55. Let's fix FindBugs warning and remove the suppression.
  */
-@SuppressFBWarnings
 public final class MultiChoiceQuestionText implements QuestionsText {
 
     /**
@@ -60,10 +57,7 @@ public final class MultiChoiceQuestionText implements QuestionsText {
     public String toDisplayableString() {
         final StringBuilder builder = new StringBuilder(this.text);
         builder.append(String.format("%n"));
-        final List<Map.Entry<Choice, String>> sorted =
-            new ArrayList<>(this.choices.entrySet());
-        sorted.sort(Comparator.comparing(obj -> obj.getKey().name()));
-        sorted.forEach(
+        this.sortedChoices().forEach(
             entry -> builder.append(
                 String.format("%n%s. %s", entry.getKey(), entry.getValue())
             )
@@ -77,5 +71,17 @@ public final class MultiChoiceQuestionText implements QuestionsText {
         json.put("text", this.text);
         json.put("choices", this.choices);
         return new JSONObject(json);
+    }
+
+    /**
+     * Sort and get the choices.
+     *
+     * @return Sorted choices.
+     */
+    private List<Map.Entry<Choice, String>> sortedChoices() {
+        final List<Map.Entry<Choice, String>> sorted =
+            new ArrayList<>(this.choices.entrySet());
+        sorted.sort(Comparator.comparing(obj -> obj.getKey().name()));
+        return sorted;
     }
 }
