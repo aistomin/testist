@@ -18,15 +18,21 @@ package com.github.aistomin.testist.simple;
 import com.github.aistomin.testist.Question;
 import com.github.aistomin.testist.Test;
 import java.util.Scanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Encapsulates the logic which interacts with user.
  *
  * @since 0.1
- * @todo: Let's fix  Issue #44 and remove PMD suppression.
  */
-@SuppressWarnings("PMD.SystemPrintln")
 public final class SimpleTestConsole {
+
+    /**
+     * Logger.
+     */
+    private static final Logger LOG =
+        LoggerFactory.getLogger(SimpleTestConsole.class);
 
     /**
      * The test which is going to be launched in console.
@@ -49,10 +55,12 @@ public final class SimpleTestConsole {
         final Scanner scanner = new Scanner(System.in, "UTF-8");
         while (this.test.hasMoreQuestions()) {
             final Question question = this.test.nextQuestion();
-            System.out.println(question.toDisplayableString());
+            SimpleTestConsole.LOG.info(question.toDisplayableString());
             question.answer(new SimpleAnswer(scanner.next()));
-            System.out.println(question.toDisplayableString());
+            SimpleTestConsole.LOG.info(question.toDisplayableString());
         }
-        System.out.println(this.test.currentTestResult().toDisplayableString());
+        SimpleTestConsole.LOG.info(
+            this.test.currentTestResult().toDisplayableString()
+        );
     }
 }
