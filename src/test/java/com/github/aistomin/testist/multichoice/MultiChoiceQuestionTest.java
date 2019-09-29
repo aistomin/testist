@@ -15,12 +15,15 @@
  */
 package com.github.aistomin.testist.multichoice;
 
+import com.github.aistomin.testist.simple.SimpleQuestion;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
+import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -32,8 +35,11 @@ import org.junit.jupiter.api.Test;
  */
 final class MultiChoiceQuestionTest {
 
+    /**
+     * Check that we can correctly answer a multi-choice questions.
+     */
     @Test
-    void answer() {
+    void testAnswer() {
         final Map<Choice, String> choices = new HashMap<>();
         choices.put(Choice.A, "Yes");
         choices.put(Choice.B, "ELP");
@@ -78,5 +84,60 @@ final class MultiChoiceQuestionTest {
         );
         Assertions.assertTrue(wrong.isAnswered());
         Assertions.assertFalse(wrong.isCorrect());
+    }
+
+    /**
+     * Check that "help" method displays the correct answer.
+     */
+    @Test
+    void testHelp() {
+        final Map<Choice, String> choices = new HashMap<>();
+        choices.put(Choice.A, UUID.randomUUID().toString());
+        choices.put(Choice.B, UUID.randomUUID().toString());
+        choices.put(Choice.C, UUID.randomUUID().toString());
+        final String text = UUID.randomUUID().toString();
+        final Set<Choice> answer =
+            new HashSet<>(Arrays.asList(Choice.B, Choice.C));
+        final MultiChoiceQuestion question = new MultiChoiceQuestion(
+            text, choices, answer
+        );
+        Assertions.assertEquals("B; C", question.help().toDisplayableString());
+    }
+
+    /**
+     * Check that we can correctly convert question to JSON and to displayable
+     * string.
+     */
+    @Test
+    void testDisplay() {
+        final Map<Choice, String> choices = new HashMap<>();
+        choices.put(Choice.A, UUID.randomUUID().toString());
+        choices.put(Choice.B, UUID.randomUUID().toString());
+        choices.put(Choice.C, UUID.randomUUID().toString());
+        final String text = UUID.randomUUID().toString();
+        final Set<Choice> answer =
+            new HashSet<>(Arrays.asList(Choice.B, Choice.C));
+        final MultiChoiceQuestion question = new MultiChoiceQuestion(
+            text, choices, answer
+        );
+        final String string = question.toDisplayableString();
+        Assertions.assertTrue(string.contains(text));
+        Assertions.assertTrue(
+            string.contains(String.format("A. %s", choices.get(Choice.A)))
+        );
+        Assertions.assertTrue(
+            string.contains(String.format("B. %s", choices.get(Choice.B)))
+        );
+        Assertions.assertTrue(
+            string.contains(String.format("C. %s", choices.get(Choice.C)))
+        );
+        final JSONObject json = question.toJson();
+        Assertions.assertEquals(
+            new SimpleQuestion(
+                new MultiChoiceQuestionText(text, choices),
+                new MultiChoiceAnswer(answer)
+            ).toJson().toString(),
+            json.toString()
+        );
     }
 }
