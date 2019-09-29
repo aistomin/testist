@@ -16,7 +16,6 @@
 package com.github.aistomin.testist.simple;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -62,11 +61,9 @@ final class SimpleQuestionTest {
 
     /**
      * Check that we correctly convert question to JSON string.
-     *
-     * @throws ParseException On JSON parsing error.
      */
     @Test
-    void toJsonString() throws ParseException {
+    void toJsonString() {
         final String question = "Who are you?";
         final String answer = "It's me";
         final SimpleQuestion test = new SimpleQuestion(
