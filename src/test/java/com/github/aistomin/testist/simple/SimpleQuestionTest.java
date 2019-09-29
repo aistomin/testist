@@ -102,17 +102,23 @@ final class SimpleQuestionTest {
     void toDisplayableString() {
         final String question = "How old are you?";
         final String answer = "33";
-        final SimpleQuestion test = new SimpleQuestion(
+        final SimpleQuestion incorrect = new SimpleQuestion(
             new SimpleText(question), new SimpleAnswer(answer)
         );
-        final String unanswered = test.toDisplayableString();
+        final String unanswered = incorrect.toDisplayableString();
         Assertions.assertTrue(unanswered.contains(question));
         Assertions.assertFalse(unanswered.contains(answer));
         final String wrong = "15";
-        test.answer(new SimpleAnswer(wrong));
-        final String answered = test.toDisplayableString();
+        incorrect.answer(new SimpleAnswer(wrong));
+        final String answered = incorrect.toDisplayableString();
         Assertions.assertTrue(answered.contains(question));
         Assertions.assertTrue(answered.contains(answer));
         Assertions.assertTrue(answered.contains(wrong));
+        final SimpleQuestion correct = new SimpleQuestion(
+            new SimpleText(question), new SimpleAnswer(answer)
+        );
+        correct.answer(new SimpleAnswer(answer));
+        final String success = correct.toDisplayableString();
+        Assertions.assertTrue(success.contains("YOUR ANSWER IS CORRECT!"));
     }
 }
