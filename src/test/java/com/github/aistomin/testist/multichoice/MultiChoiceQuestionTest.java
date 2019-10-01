@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
  * The test for {@link MultiChoiceQuestion}.
  *
  * @since 0.1
+ * @todo: Let's fix #95 and remove checkstyle suppression.
  * @checkstyle ExecutableStatementCountCheck (100 lines)
  */
 final class MultiChoiceQuestionTest {
