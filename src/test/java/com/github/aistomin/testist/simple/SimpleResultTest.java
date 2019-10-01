@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  * @todo: Let's fix #93 and remove checkstyle suppression.
  * @checkstyle MagicNumberCheck (300 lines)
+ * @todo: Let's fix #94 and remove PMD suppression.
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 class SimpleResultTest {
