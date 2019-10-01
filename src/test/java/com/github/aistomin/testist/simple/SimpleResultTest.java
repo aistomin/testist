@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
  * The test for {@link SimpleResult}.
  *
  * @since 0.1
+ * @todo: Let's fix #93 and remove checkstyle suppression.
  * @checkstyle MagicNumberCheck (300 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
