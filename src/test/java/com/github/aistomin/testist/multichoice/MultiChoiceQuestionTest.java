@@ -31,8 +31,6 @@ import org.junit.jupiter.api.Test;
  * The test for {@link MultiChoiceQuestion}.
  *
  * @since 0.1
- * @todo: Let's fix #95 and remove checkstyle suppression.
- * @checkstyle ExecutableStatementCountCheck (100 lines)
  */
 final class MultiChoiceQuestionTest {
 
@@ -41,11 +39,7 @@ final class MultiChoiceQuestionTest {
      */
     @Test
     void testAnswer() {
-        final Map<Choice, String> choices = new HashMap<>();
-        choices.put(Choice.A, "Yes");
-        choices.put(Choice.B, "ELP");
-        choices.put(Choice.C, "Genesis");
-        choices.put(Choice.D, "Dream Theater");
+        final Map<Choice, String> choices = this.sampleQuestion();
         final String text = "What is the best prog. rock band?";
         final Set<Choice> answer =
             new HashSet<>(Arrays.asList(Choice.B, Choice.C));
@@ -77,7 +71,6 @@ final class MultiChoiceQuestionTest {
             text, choices, answer
         );
         Assertions.assertFalse(wrong.isAnswered());
-        Assertions.assertFalse(wrong.isCorrect());
         wrong.answer(
             new MultiChoiceAnswer(
                 new HashSet<>(Arrays.asList(Choice.A, Choice.D))
@@ -140,5 +133,18 @@ final class MultiChoiceQuestionTest {
             ).toJson().toString(),
             json.toString()
         );
+    }
+
+    /**
+     * Create sample question.
+     * @return Sample question.
+     */
+    private Map<Choice, String> sampleQuestion() {
+        final Map<Choice, String> choices = new HashMap<>();
+        choices.put(Choice.A, "Yes");
+        choices.put(Choice.B, "ELP");
+        choices.put(Choice.C, "Genesis");
+        choices.put(Choice.D, "Dream Theater");
+        return choices;
     }
 }
