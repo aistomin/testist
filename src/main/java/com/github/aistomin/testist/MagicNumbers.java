@@ -23,9 +23,54 @@ package com.github.aistomin.testist;
 public enum MagicNumbers {
 
     /**
+     * Three.
+     */
+    THREE(3),
+
+    /**
+     * Four.
+     */
+    FOUR(4),
+
+    /**
+     * Five.
+     */
+    FIVE(5),
+
+    /**
+     * Six.
+     */
+    SIX(6),
+
+    /**
+     * Seven.
+     */
+    SEVEN(7),
+
+    /**
+     * Fifty.
+     */
+    FIFTY(50),
+
+    /**
+     * Sixty.
+     */
+    SIXTY(60),
+
+    /**
+     * Ninety.
+     */
+    NINETY(90),
+
+    /**
      * One hundred.
      */
-    HUNDRED(100);
+    HUNDRED(100),
+
+    /**
+     * One hundred and one.
+     */
+    ONE_HUNDRED_ONE(101);
 
     /**
      * Magic number value.

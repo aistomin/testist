@@ -15,6 +15,7 @@
  */
 package com.github.aistomin.testist.simple;
 
+import com.github.aistomin.testist.MagicNumbers;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,8 +24,6 @@ import org.junit.jupiter.api.Test;
  * The test for {@link SimpleResult}.
  *
  * @since 0.1
- * @todo: Let's fix #93 and remove checkstyle suppression.
- * @checkstyle MagicNumberCheck (300 lines)
  * @todo: Let's fix #94 and remove PMD suppression.
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
@@ -79,7 +78,12 @@ class SimpleResultTest {
         Assertions.assertEquals(
             common, Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> new SimpleResult(6, 7, 4).isPassed()
+                () ->
+                    new SimpleResult(
+                        MagicNumbers.SIX.number(),
+                        MagicNumbers.SEVEN.number(),
+                        MagicNumbers.FOUR.number()
+                    ).isPassed()
             ).getMessage()
         );
         final String percentage =
@@ -96,7 +100,8 @@ class SimpleResultTest {
             percentage, Assertions.assertThrows(
                 IllegalArgumentException.class,
                 () -> new SimpleResult(
-                    new SimpleResult.Input(1, 1, 1), 101
+                    new SimpleResult.Input(1, 1, 1),
+                    MagicNumbers.ONE_HUNDRED_ONE.number()
                 ).isFinished()
             ).getMessage()
         );
@@ -108,12 +113,15 @@ class SimpleResultTest {
     @Test
     void testIsFinished() {
         Assertions.assertTrue(
-            new SimpleResult(new SimpleResult.Input(2, 2, 1), 60)
-                .isFinished()
+            new SimpleResult(
+                new SimpleResult.Input(2, 2, 1), MagicNumbers.SIXTY.number()
+            ).isFinished()
         );
         Assertions.assertFalse(
-            new SimpleResult(new SimpleResult.Input(3, 1, 1), 50)
-                .isFinished()
+            new SimpleResult(
+                new SimpleResult.Input(MagicNumbers.THREE.number(), 1, 1),
+                MagicNumbers.FIFTY.number()
+            ).isFinished()
         );
     }
 
@@ -123,20 +131,35 @@ class SimpleResultTest {
     @Test
     void testIsPassed() {
         Assertions.assertFalse(
-            new SimpleResult(new SimpleResult.Input(3, 2, 2), 50)
-                .isPassed()
+            new SimpleResult(
+                new SimpleResult.Input(MagicNumbers.THREE.number(), 2, 2),
+                MagicNumbers.FIFTY.number()
+            ).isPassed()
         );
         Assertions.assertFalse(
-            new SimpleResult(new SimpleResult.Input(4, 4, 2), 60)
-                .isPassed()
+            new SimpleResult(
+                new SimpleResult.Input(
+                    MagicNumbers.FOUR.number(), MagicNumbers.FOUR.number(), 2
+                ), MagicNumbers.SIXTY.number()
+            ).isPassed()
         );
         Assertions.assertTrue(
-            new SimpleResult(new SimpleResult.Input(5, 5, 3), 50)
-                .isPassed()
+            new SimpleResult(
+                new SimpleResult.Input(
+                    MagicNumbers.FIVE.number(),
+                    MagicNumbers.FIVE.number(),
+                    MagicNumbers.THREE.number()
+                ), MagicNumbers.FIFTY.number()
+            ).isPassed()
         );
         Assertions.assertTrue(
-            new SimpleResult(new SimpleResult.Input(6, 6, 6), 50)
-                .isPassed()
+            new SimpleResult(
+                new SimpleResult.Input(
+                    MagicNumbers.SIX.number(),
+                    MagicNumbers.SIX.number(),
+                    MagicNumbers.SIX.number()
+                ), MagicNumbers.FIFTY.number()
+            ).isPassed()
         );
     }
 
@@ -145,11 +168,11 @@ class SimpleResultTest {
      */
     @Test
     void toJsonString() {
-        final int total = 7;
-        final int answered = 6;
-        final int correct = 4;
+        final int total = MagicNumbers.SEVEN.number();
+        final int answered = MagicNumbers.SIX.number();
+        final int correct = MagicNumbers.FOUR.number();
         final int wrong = 2;
-        final int percentage = 50;
+        final int percentage = MagicNumbers.FIFTY.number();
         final JSONObject json = new SimpleResult(
             new SimpleResult.Input(total, answered, correct), percentage
         ).toJson();
@@ -166,9 +189,13 @@ class SimpleResultTest {
 
     @Test
     void toDisplayableString() {
-        final String partial =
-            new SimpleResult(new SimpleResult.Input(7, 6, 4), 90)
-                .toDisplayableString();
+        final String partial = new SimpleResult(
+            new SimpleResult.Input(
+                MagicNumbers.SEVEN.number(),
+                MagicNumbers.SIX.number(),
+                MagicNumbers.FOUR.number()
+            ), MagicNumbers.NINETY.number()
+        ).toDisplayableString();
         Assertions.assertTrue(partial.contains("YOU TEST IS NOT FINISHED."));
         Assertions.assertTrue(partial.contains("TOTAL: 7"));
         Assertions.assertTrue(partial.contains("ANSWERED: 6"));
@@ -176,17 +203,25 @@ class SimpleResultTest {
         Assertions.assertTrue(partial.contains("WRONG: 2"));
         Assertions.assertTrue(partial.contains("PASSING PERCENTAGE: 90"));
         Assertions.assertTrue(partial.contains("PLEASE CONTINUE."));
-        final String failed =
-            new SimpleResult(new SimpleResult.Input(7, 7, 5), 90)
-                .toDisplayableString();
+        final String failed = new SimpleResult(
+            new SimpleResult.Input(
+                MagicNumbers.SEVEN.number(),
+                MagicNumbers.SEVEN.number(),
+                MagicNumbers.FIVE.number()
+            ), MagicNumbers.NINETY.number()
+        ).toDisplayableString();
         Assertions.assertTrue(failed.contains("YOUR TEST IS FINISHED."));
         Assertions.assertTrue(failed.contains("CORRECT: 5"));
         Assertions.assertTrue(failed.contains("WRONG: 2"));
         Assertions.assertTrue(failed.contains("PASSING PERCENTAGE: 90"));
         Assertions.assertTrue(failed.contains("PREPARE AND TRY AGAIN LATER"));
-        final String success =
-            new SimpleResult(new SimpleResult.Input(7, 7, 5), 50)
-                .toDisplayableString();
+        final String success = new SimpleResult(
+            new SimpleResult.Input(
+                MagicNumbers.SEVEN.number(),
+                MagicNumbers.SEVEN.number(),
+                MagicNumbers.FIVE.number()
+            ), MagicNumbers.FIFTY.number()
+        ).toDisplayableString();
         Assertions.assertTrue(success.contains("YOUR TEST IS FINISHED."));
         Assertions.assertTrue(success.contains("CORRECT: 5"));
         Assertions.assertTrue(success.contains("WRONG: 2"));
