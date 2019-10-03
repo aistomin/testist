@@ -16,6 +16,7 @@
 package com.github.aistomin.testist.simple;
 
 import com.github.aistomin.testist.MagicNumbers;
+import java.util.Arrays;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,9 +25,7 @@ import org.junit.jupiter.api.Test;
  * The test for {@link SimpleResult}.
  *
  * @since 0.1
- * @todo: Let's fix #94 and remove PMD suppression.
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 class SimpleResultTest {
 
     /**
@@ -196,12 +195,21 @@ class SimpleResultTest {
                 MagicNumbers.FOUR.number()
             ), MagicNumbers.NINETY.number()
         ).toDisplayableString();
-        Assertions.assertTrue(partial.contains("YOU TEST IS NOT FINISHED."));
-        Assertions.assertTrue(partial.contains("TOTAL: 7"));
-        Assertions.assertTrue(partial.contains("ANSWERED: 6"));
-        Assertions.assertTrue(partial.contains("CORRECT: 4"));
-        Assertions.assertTrue(partial.contains("WRONG: 2"));
-        Assertions.assertTrue(partial.contains("PASSING PERCENTAGE: 90"));
+        Arrays.asList(
+            "YOU TEST IS NOT FINISHED.",
+            "TOTAL: 7",
+            "ANSWERED: 6"
+        ).forEach(item -> Assertions.assertTrue(partial.contains(item)));
+        final String correct = "CORRECT: %d";
+        Assertions.assertTrue(
+            partial.contains(
+                String.format(correct, MagicNumbers.FOUR.number())
+            )
+        );
+        final String wrong = "WRONG: %d";
+        Assertions.assertTrue(partial.contains(String.format(wrong, 2)));
+        final String passing = "PASSING PERCENTAGE: 90";
+        Assertions.assertTrue(partial.contains(passing));
         Assertions.assertTrue(partial.contains("PLEASE CONTINUE."));
         final String failed = new SimpleResult(
             new SimpleResult.Input(
@@ -210,11 +218,18 @@ class SimpleResultTest {
                 MagicNumbers.FIVE.number()
             ), MagicNumbers.NINETY.number()
         ).toDisplayableString();
-        Assertions.assertTrue(failed.contains("YOUR TEST IS FINISHED."));
-        Assertions.assertTrue(failed.contains("CORRECT: 5"));
-        Assertions.assertTrue(failed.contains("WRONG: 2"));
-        Assertions.assertTrue(failed.contains("PASSING PERCENTAGE: 90"));
-        Assertions.assertTrue(failed.contains("PREPARE AND TRY AGAIN LATER"));
+        final String finish = "YOUR TEST IS FINISHED.";
+        Assertions.assertTrue(failed.contains(finish));
+        Assertions.assertTrue(
+            failed.contains(
+                String.format(correct, MagicNumbers.FIVE.number())
+            )
+        );
+        Arrays.asList(
+            String.format(wrong, 2),
+            passing,
+            "PREPARE AND TRY AGAIN LATER"
+        ).forEach(item -> Assertions.assertTrue(failed.contains(item)));
         final String success = new SimpleResult(
             new SimpleResult.Input(
                 MagicNumbers.SEVEN.number(),
@@ -222,10 +237,12 @@ class SimpleResultTest {
                 MagicNumbers.FIVE.number()
             ), MagicNumbers.FIFTY.number()
         ).toDisplayableString();
-        Assertions.assertTrue(success.contains("YOUR TEST IS FINISHED."));
-        Assertions.assertTrue(success.contains("CORRECT: 5"));
-        Assertions.assertTrue(success.contains("WRONG: 2"));
-        Assertions.assertTrue(success.contains("PASSING PERCENTAGE: 50"));
-        Assertions.assertTrue(success.contains("CONGRATULATIONS!!!"));
+        Arrays.asList(
+            finish,
+            String.format(correct, MagicNumbers.FIVE.number()),
+            String.format(wrong, 2),
+            "PASSING PERCENTAGE: 50",
+            "CONGRATULATIONS!!!"
+        ).forEach(item -> Assertions.assertTrue(success.contains(item)));
     }
 }
