@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.aistomin.testist.simple;
+package com.github.aistomin.testist.demo;
 
 import com.github.aistomin.testist.Question;
 import com.github.aistomin.testist.Test;
+import com.github.aistomin.testist.simple.SimpleAnswer;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

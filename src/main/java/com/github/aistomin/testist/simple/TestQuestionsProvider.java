@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @since 0.1
  */
-final class TestQuestionsProvider implements QuestionsProvider {
+public final class TestQuestionsProvider implements QuestionsProvider {
 
     /**
      * Test questions list.
@@ -35,7 +35,7 @@ final class TestQuestionsProvider implements QuestionsProvider {
     /**
      * Ctor.
      */
-    TestQuestionsProvider() {
+    public TestQuestionsProvider() {
         this.items = Arrays.asList(
             new SimpleQuestion(
                 new SimpleText("1 + 1 = ?"), new SimpleAnswer("2")

@@ -13,31 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.aistomin.testist.simple;
-
 /**
- * The example of the simple test.
- *
- * @since 0.1
+ * Simple test demo package.
  */
-public final class SimpleTestDemo {
-
-    /**
-     * Ctor.
-     */
-    private SimpleTestDemo() {
-    }
-
-    /**
-     * Runnable method.
-     *
-     * @param args Arguments.
-     */
-    public static void main(final String... args) {
-        new SimpleTestConsole(
-            new SimpleTest(
-                new TestQuestionsProvider()
-            )
-        ).runTest();
-    }
-}
+package com.github.aistomin.testist.demo;
