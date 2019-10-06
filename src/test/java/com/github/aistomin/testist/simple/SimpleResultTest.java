@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  *
  * @since 0.1
  */
-class SimpleResultTest {
+final class SimpleResultTest {
 
     /**
      * Check that we can correctly create the simple test result if we provide

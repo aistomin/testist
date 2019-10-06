@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
  *
  * @since 0.1
  */
-class SimpleTextTest {
+final class SimpleTextTest {
 
     /**
      * Check that we correctly convert the entity to the JSON.
