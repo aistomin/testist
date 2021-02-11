@@ -1,5 +1,6 @@
 # Testist
 [![Build Status](https://travis-ci.org/aistomin/testist.svg?branch=master)](https://travis-ci.org/aistomin/testist)
+[![Hits-of-Code](https://hitsofcode.com/github/aistomin/testist)](https://hitsofcode.com/github/aistomin/testist/view)
 
 Library with some basic classes that allows to create a testing applications for students.
 
