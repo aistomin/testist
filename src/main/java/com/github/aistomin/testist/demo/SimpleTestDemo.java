@@ -17,6 +17,8 @@ package com.github.aistomin.testist.demo;
 
 import com.github.aistomin.testist.simple.SimpleTest;
 import com.github.aistomin.testist.simple.TestQuestionsProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The example of the simple test.
@@ -24,6 +26,12 @@ import com.github.aistomin.testist.simple.TestQuestionsProvider;
  * @since 0.1
  */
 public final class SimpleTestDemo {
+
+    /**
+     * Logger.
+     */
+    private static final Logger LOG =
+        LoggerFactory.getLogger(SimpleTestDemo.class);
 
     /**
      * Ctor.
@@ -40,7 +48,8 @@ public final class SimpleTestDemo {
         new SimpleTestConsole(
             new SimpleTest(
                 new TestQuestionsProvider()
-            )
+            ),
+            SimpleTestDemo.LOG::info
         ).runTest();
     }
 }

@@ -19,8 +19,6 @@ import com.github.aistomin.testist.Question;
 import com.github.aistomin.testist.Test;
 import com.github.aistomin.testist.simple.SimpleAnswer;
 import java.util.Scanner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Encapsulates the logic which interacts with user.
@@ -30,23 +28,24 @@ import org.slf4j.LoggerFactory;
 public final class SimpleTestConsole {
 
     /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        LoggerFactory.getLogger(SimpleTestConsole.class);
-
-    /**
      * The test which is going to be launched in console.
      */
     private final Test test;
 
     /**
+     * Output.
+     */
+    private final SimpleTestOutput out;
+
+    /**
      * Ctor.
      *
      * @param test The test which is going to be launched in console.
+     * @param output Output.
      */
-    public SimpleTestConsole(final Test test) {
+    public SimpleTestConsole(final Test test, final SimpleTestOutput output) {
         this.test = test;
+        this.out = output;
     }
 
     /**
@@ -56,11 +55,11 @@ public final class SimpleTestConsole {
         final Scanner scanner = new Scanner(System.in, "UTF-8");
         while (this.test.hasMoreQuestions()) {
             final Question question = this.test.nextQuestion();
-            SimpleTestConsole.LOG.info(question.toDisplayableString());
+            this.out.write(question.toDisplayableString());
             question.answer(new SimpleAnswer(scanner.next()));
-            SimpleTestConsole.LOG.info(question.toDisplayableString());
+            this.out.write(question.toDisplayableString());
         }
-        SimpleTestConsole.LOG.info(
+        this.out.write(
             this.test.currentTestResult().toDisplayableString()
         );
     }
