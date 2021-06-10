@@ -1,6 +1,8 @@
 # Testist
 [![Build Status](https://travis-ci.org/aistomin/testist.svg?branch=master)](https://travis-ci.org/aistomin/testist)
 [![Hits-of-Code](https://hitsofcode.com/github/aistomin/testist)](https://hitsofcode.com/github/aistomin/testist/view)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.aistomin/testist/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.aistomin/testist)
+[![javadoc](https://javadoc.io/badge2/com.github.aistomin/testist/javadoc.svg)](https://javadoc.io/doc/com.github.aistomin/testist)
 
 Library with some basic classes that allows to create a testing applications for students.
 
