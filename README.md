@@ -1,6 +1,7 @@
 # Testist
 [![Build Status](https://travis-ci.org/aistomin/testist.svg?branch=master)](https://travis-ci.org/aistomin/testist)
 [![Hits-of-Code](https://hitsofcode.com/github/aistomin/testist)](https://hitsofcode.com/github/aistomin/testist/view)
+[![codecov](https://codecov.io/gh/aistomin/testist/branch/master/graph/badge.svg)](https://codecov.io/gh/aistomin/testist)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.aistomin/testist/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.aistomin/testist)
 [![javadoc](https://javadoc.io/badge2/com.github.aistomin/testist/javadoc.svg)](https://javadoc.io/doc/com.github.aistomin/testist)
 
