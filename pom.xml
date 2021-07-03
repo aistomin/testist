@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.aistomin</groupId>
     <artifactId>testist</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.2</version>
     <packaging>jar</packaging>
     <name>Testist</name>
     <description>
