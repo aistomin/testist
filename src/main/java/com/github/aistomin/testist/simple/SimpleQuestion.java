@@ -52,6 +52,11 @@ public final class SimpleQuestion implements Question {
     private final List<Answer> got;
 
     /**
+     * Question's identifier.
+     */
+    private final String identifier;
+
+    /**
      * Mutex object.
      */
     private final Object mutex;
@@ -67,6 +72,9 @@ public final class SimpleQuestion implements Question {
         this.expected = answer;
         this.mutex = new Object();
         this.got = new ArrayList<>(1);
+        this.identifier = String.format(
+            "%s:%s", text.toDisplayableString(), answer.toDisplayableString()
+        );
     }
 
     @Override
@@ -151,5 +159,23 @@ public final class SimpleQuestion implements Question {
             builder.append("**********************************");
             return builder.toString();
         }
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean res;
+        if (this == obj) {
+            res = true;
+        } else if (obj == null || getClass() != obj.getClass()) {
+            res = false;
+        } else {
+            res = this.identifier.equals(((SimpleQuestion) obj).identifier);
+        }
+        return res;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.identifier.hashCode();
     }
 }
