@@ -15,6 +15,10 @@
  */
 package com.github.aistomin.testist.simple;
 
+import com.github.aistomin.testist.Answer;
+import com.github.aistomin.testist.Question;
+import java.util.Arrays;
+import java.util.List;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,7 +34,7 @@ final class SimpleQuestionTest {
      * Check that we can correctly answer the questions.
      */
     @Test
-    void answer() {
+    void testAnswer() {
         final SimpleAnswer expected = new SimpleAnswer("Andrej");
         final SimpleQuestion wrong = new SimpleQuestion(
             new SimpleText("What is your name?"), expected
@@ -63,7 +67,7 @@ final class SimpleQuestionTest {
      * Check that we correctly convert question to JSON string.
      */
     @Test
-    void toJsonString() {
+    void testToJsonString() {
         final String question = "Who are you?";
         final String answer = "It's me";
         final SimpleQuestion test = new SimpleQuestion(
@@ -99,7 +103,7 @@ final class SimpleQuestionTest {
      * Check that we correctly display the question.
      */
     @Test
-    void toDisplayableString() {
+    void testToDisplayableString() {
         final String question = "How old are you?";
         final String answer = "33";
         final SimpleQuestion incorrect = new SimpleQuestion(
@@ -120,5 +124,31 @@ final class SimpleQuestionTest {
         correct.answer(new SimpleAnswer(answer));
         final String success = correct.toDisplayableString();
         Assertions.assertTrue(success.contains("YOUR ANSWER IS CORRECT!"));
+    }
+
+    /**
+     * Check that we can correctly answer the questions which have more than one
+     * correct answer.
+     */
+    @Test
+    void testQuestionWithSeveralCorrectAnswers() {
+        final List<Answer> correct = Arrays.asList(
+            new SimpleAnswer("My name is Andrej."),
+            new SimpleAnswer("I am Andrej."),
+            new SimpleAnswer("I'm called Andrej.")
+        );
+        final String text = "Ich heiße Andrej.";
+        final Question question = new SimpleQuestion(
+            new SimpleText(text), correct
+        );
+        question.answer(new SimpleAnswer("My name is Bruce."));
+        Assertions.assertFalse(question.isCorrect());
+        for (final Answer answer : correct) {
+            final Question quest = new SimpleQuestion(
+                new SimpleText(text), correct
+            );
+            quest.answer(answer);
+            Assertions.assertTrue(quest.isCorrect());
+        }
     }
 }

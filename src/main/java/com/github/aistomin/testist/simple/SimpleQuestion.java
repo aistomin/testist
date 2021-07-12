@@ -19,6 +19,7 @@ import com.github.aistomin.testist.Answer;
 import com.github.aistomin.testist.Question;
 import com.github.aistomin.testist.QuestionsText;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,9 +43,9 @@ public final class SimpleQuestion implements Question {
     private final QuestionsText text;
 
     /**
-     * Expected answer.
+     * List of answers that are considered as the correct ones.
      */
-    private final Answer expected;
+    private final List<Answer> expected;
 
     /**
      * The answer which we got from the client.
@@ -68,13 +69,23 @@ public final class SimpleQuestion implements Question {
      * @param answer Expected answer to the question.
      */
     public SimpleQuestion(final QuestionsText text, final Answer answer) {
+        this(text, Collections.singletonList(answer));
+    }
+
+    /**
+     * Ctor.
+     *
+     * @param text Question's text.
+     * @param answers List of answers that are considered as the correct ones.
+     */
+    public SimpleQuestion(
+        final QuestionsText text, final List<Answer> answers
+    ) {
         this.text = text;
-        this.expected = answer;
+        this.expected = answers;
         this.mutex = new Object();
         this.got = new ArrayList<>(1);
-        this.identifier = String.format(
-            "%s:%s", text.toDisplayableString(), answer.toDisplayableString()
-        );
+        this.identifier = text.toDisplayableString();
     }
 
     @Override
@@ -92,7 +103,10 @@ public final class SimpleQuestion implements Question {
     @Override
     public Boolean isCorrect() {
         synchronized (this.mutex) {
-            return this.isAnswered() && this.expected.validate(this.got.get(0));
+            return this.isAnswered()
+                && this.expected.stream().anyMatch(
+                    answer -> answer.validate(this.got.get(0))
+                );
         }
     }
 
@@ -105,7 +119,7 @@ public final class SimpleQuestion implements Question {
 
     @Override
     public Answer help() {
-        return this.expected;
+        return this.expected.get(0);
     }
 
     @Override
@@ -113,7 +127,7 @@ public final class SimpleQuestion implements Question {
         synchronized (this.mutex) {
             final Map<String, Object> json = new HashMap<>();
             json.put("question", this.text.toJson());
-            json.put("expected", this.expected.toJson());
+            json.put("expected", this.expected.get(0).toJson());
             if (this.isAnswered()) {
                 json.put("got", this.got.get(0).toJson());
             }
@@ -138,14 +152,14 @@ public final class SimpleQuestion implements Question {
                     builder.append(
                         String.format(
                             "YOUR ANSWER IS CORRECT!%nANSWER: %s%n",
-                            this.expected.toDisplayableString()
+                            this.expected.get(0).toDisplayableString()
                         )
                     );
                 } else {
                     builder.append(
                         String.format(
                             "YOUR ANSWER IS NOT CORRECT!%nCORRECT ANSWER: %s%n",
-                            this.expected.toDisplayableString()
+                            this.expected.get(0).toDisplayableString()
                         )
                     );
                     builder.append(
