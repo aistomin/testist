@@ -15,6 +15,8 @@
  */
 package com.github.aistomin.testist.simple;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -107,6 +109,41 @@ final class SimpleAnswerTest {
             expected,
             new SimpleAnswer("Some  text   with a    lot   of  spaces.")
                 .toDisplayableString()
+        );
+    }
+
+    /**
+     * Check that we can ignore any occasionally repeated spaces within the
+     * answer.
+     */
+    @Test
+    void testIgnoreCase() {
+        final String expected = "This is answer.";
+        Assertions.assertTrue(
+            new SimpleAnswer(
+                expected,
+                new HashSet<>(Arrays.asList(SimpleAnswer.Conf.IGNORE_CASE))
+            ).validate(
+                new SimpleAnswer("this is ANSWER.")
+            )
+        );
+    }
+
+    /**
+     * Check that we can ignore the punctuation.
+     */
+    @Test
+    void testIgnorePunctuation() {
+        final String expected = "Hallo! Ich bin Herr Müller.";
+        Assertions.assertTrue(
+            new SimpleAnswer(
+                expected,
+                new HashSet<>(
+                    Arrays.asList(SimpleAnswer.Conf.IGNORE_PUNCTUATION)
+                )
+            ).validate(
+                new SimpleAnswer("Hallo. Ich bin Herr Müller!")
+            )
         );
     }
 }

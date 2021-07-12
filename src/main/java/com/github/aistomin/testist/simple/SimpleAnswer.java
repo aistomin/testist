@@ -17,7 +17,10 @@ package com.github.aistomin.testist.simple;
 
 import com.github.aistomin.testist.Answer;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import org.json.simple.JSONObject;
 
 /**
@@ -33,17 +36,36 @@ public final class SimpleAnswer implements Answer {
     private final String text;
 
     /**
+     * Additional configurations.
+     */
+    private final Set<Conf> configs;
+
+    /**
      * Ctor.
      *
      * @param text The answer's text.
      */
     public SimpleAnswer(final String text) {
+        this(text, new HashSet<>(0));
+    }
+
+    /**
+     * Ctor.
+     *
+     * @param text The answer's text.
+     * @param misc Additional configurations.
+     */
+    public SimpleAnswer(final String text, final Set<Conf> misc) {
+        this.configs = misc;
         this.text = text.trim().replaceAll("\\s+", " ");
     }
 
     @Override
     public Boolean validate(final Answer answer) {
-        return answer != null && this.text.equals(answer.toDisplayableString());
+        return answer != null
+            && this.normalise(this.toDisplayableString()).equals(
+                this.normalise(answer.toDisplayableString())
+            );
     }
 
     @Override
@@ -56,5 +78,65 @@ public final class SimpleAnswer implements Answer {
     @Override
     public String toDisplayableString() {
         return this.text;
+    }
+
+    /**
+     * Normalise the original string.
+     *
+     * @param str Original string.
+     * @return Normalised string.
+     */
+    private String normalise(final String str) {
+        return this.fixPunctuationIfNecessary(this.fixCaseIfNecessary(str));
+    }
+
+    /**
+     * If question is configured to ignore the case, then we need to normalise
+     * the string.
+     *
+     * @param str Original string.
+     * @return Normalised string.
+     */
+    private String fixCaseIfNecessary(final String str) {
+        final String res;
+        if (this.configs.contains(Conf.IGNORE_CASE)) {
+            res = str.toLowerCase(Locale.getDefault());
+        } else {
+            res = str;
+        }
+        return res;
+    }
+
+    /**
+     * If question is configured to ignore the punctuation, then we need to
+     * normalise the string.
+     *
+     * @param str Original string.
+     * @return Normalised string.
+     */
+    private String fixPunctuationIfNecessary(final String str) {
+        final String res;
+        if (this.configs.contains(Conf.IGNORE_PUNCTUATION)) {
+            res = str.replaceAll("[^\\p{IsAlphabetic}\\p{IsDigit}]", "");
+        } else {
+            res = str;
+        }
+        return res;
+    }
+
+    /**
+     * Additional answer configuration.
+     */
+    public enum Conf {
+
+        /**
+         * Ignore text's case.
+         */
+        IGNORE_CASE,
+
+        /**
+         * Ignore punctuation inside the text.
+         */
+        IGNORE_PUNCTUATION
     }
 }
