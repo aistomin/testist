@@ -29,7 +29,7 @@ final class SimpleAnswerTest {
      * Check that we correctly validate the answers.
      */
     @Test
-    void validate() {
+    void testValidate() {
         final String correct = "Correct answer";
         final String wrong = "Wrong answer";
         Assertions.assertTrue(
@@ -47,7 +47,7 @@ final class SimpleAnswerTest {
      * Check that we correctly convert the answer to the JSON string.
      */
     @Test
-    void toJsonString() {
+    void testToJsonString() {
         final String expected = "Expected answer";
         Assertions.assertEquals(
             expected, new SimpleAnswer(expected).toJson().get("text")
@@ -58,10 +58,55 @@ final class SimpleAnswerTest {
      * Check that we correctly display the answer.
      */
     @Test
-    void toDisplayableString() {
+    void testToDisplayableString() {
         final String expected = "Some text";
         Assertions.assertEquals(
             expected, new SimpleAnswer(expected).toDisplayableString()
+        );
+    }
+
+    /**
+     * Check that we ignore any occasional trailing spaces in the answer.
+     */
+    @Test
+    void testTrailingSpaces() {
+        final String expected = "Normalised text.";
+        Assertions.assertEquals(
+            expected,
+            new SimpleAnswer("Normalised text. ").toDisplayableString()
+        );
+        Assertions.assertEquals(
+            expected,
+            new SimpleAnswer("Normalised text.   ").toDisplayableString()
+        );
+        Assertions.assertEquals(
+            expected,
+            new SimpleAnswer(" Normalised text.").toDisplayableString()
+        );
+        Assertions.assertEquals(
+            expected,
+            new SimpleAnswer("  Normalised text.").toDisplayableString()
+        );
+        Assertions.assertEquals(
+            expected,
+            new SimpleAnswer(" Normalised text. ").toDisplayableString()
+        );
+        Assertions.assertEquals(
+            expected,
+            new SimpleAnswer("  Normalised text.  ").toDisplayableString()
+        );
+    }
+
+    /**
+     * Check that we ignore any occasionally repeated spaces within the answer.
+     */
+    @Test
+    void testIgnoreRepeatedSpaces() {
+        final String expected = "Some text with a lot of spaces.";
+        Assertions.assertEquals(
+            expected,
+            new SimpleAnswer("Some  text   with a    lot   of  spaces.")
+                .toDisplayableString()
         );
     }
 }

@@ -38,7 +38,7 @@ public final class SimpleAnswer implements Answer {
      * @param text The answer's text.
      */
     public SimpleAnswer(final String text) {
-        this.text = text;
+        this.text = text.trim().replaceAll("\\s+", " ");
     }
 
     @Override
