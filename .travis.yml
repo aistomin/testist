@@ -1,12 +1,12 @@
 dist: trusty
 language: java
 jdk:
-  - oraclejdk8
+  - oraclejdk11
 branches:
   only:
     - master
 env:
   global:
-    - MAVEN_OPTS="-XX:MaxPermSize=512m -Xmx2g"
+    - MAVEN_OPTS="-XX:MaxPermSize=512m -Xmx2g --illegal-access=permit"
     - CODECOV_TOKEN="d4c4d4bd-a302-43a4-ba0f-c0bf6b5ebe9c"
 script: ./build.sh
