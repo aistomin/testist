@@ -10,8 +10,8 @@ Library with some basic classes that allows to create a testing applications for
 ## Getting Started
 
 ### System Requirements
-- JDK 11 or higher.
-- Apache Maven 3.3.9 or higher
+- JDK 15 or higher.
+- Apache Maven 3.8.3 or higher
 
 ### Add Maven Dependency
 If you use Maven, add the following configuration to your project's `pom.xml`
