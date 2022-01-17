@@ -52,22 +52,25 @@ public final class SimpleResult implements Result {
         final Integer answered,
         final Integer correct
     ) {
-        this(new Input(total, answered, correct), MagicNumbers.HUNDRED.number());
+        this(
+            new Input(total, answered, correct),
+            MagicNumbers.HUNDRED.number()
+        );
     }
 
     /**
      * Ctor.
      *
      * @param input User's input data.
-     * @param percentage The percentage of the correct answers which must be
+     * @param threshold The percentage of the correct answers which must be
      *  reached to pass the test.
      */
     public SimpleResult(
         final Input input,
-        final Integer percentage
+        final Integer threshold
     ) {
         this.data = input;
-        this.percentage = percentage;
+        this.percentage = threshold;
     }
 
     @Override
@@ -220,18 +223,18 @@ public final class SimpleResult implements Result {
         /**
          * Ctor.
          *
-         * @param total Total amount of questions in the test.
-         * @param answered Amount of answered questions in the test.
-         * @param correct Amount of correctly answered questions in the test.
+         * @param all Total amount of questions in the test.
+         * @param done Amount of answered questions in the test.
+         * @param right Amount of correctly answered questions in the test.
          */
         public Input(
-            final Integer total,
-            final Integer answered,
-            final Integer correct
+            final Integer all,
+            final Integer done,
+            final Integer right
         ) {
-            this.total = total;
-            this.answered = answered;
-            this.correct = correct;
+            this.total = all;
+            this.answered = done;
+            this.correct = right;
         }
 
         /**

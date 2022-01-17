@@ -40,11 +40,11 @@ public final class SimpleTestConsole {
     /**
      * Ctor.
      *
-     * @param test The test which is going to be launched in console.
+     * @param item The test which is going to be launched in console.
      * @param output Output.
      */
-    public SimpleTestConsole(final Test test, final SimpleTestOutput output) {
-        this.test = test;
+    public SimpleTestConsole(final Test item, final SimpleTestOutput output) {
+        this.test = item;
         this.out = output;
     }
 

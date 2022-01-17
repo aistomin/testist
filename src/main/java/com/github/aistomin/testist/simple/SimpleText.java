@@ -35,10 +35,10 @@ public final class SimpleText implements QuestionsText {
     /**
      * Ctor.
      *
-     * @param text The simple text.
+     * @param txt The simple text.
      */
-    public SimpleText(final String text) {
-        this.text = text;
+    public SimpleText(final String txt) {
+        this.text = txt;
     }
 
     @Override

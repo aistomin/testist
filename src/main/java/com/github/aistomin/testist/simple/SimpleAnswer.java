@@ -43,21 +43,21 @@ public final class SimpleAnswer implements Answer {
     /**
      * Ctor.
      *
-     * @param text The answer's text.
+     * @param txt The answer's text.
      */
-    public SimpleAnswer(final String text) {
-        this(text, new HashSet<>(0));
+    public SimpleAnswer(final String txt) {
+        this(txt, new HashSet<>(0));
     }
 
     /**
      * Ctor.
      *
-     * @param text The answer's text.
+     * @param txt The answer's text.
      * @param misc Additional configurations.
      */
-    public SimpleAnswer(final String text, final Set<Conf> misc) {
+    public SimpleAnswer(final String txt, final Set<Conf> misc) {
         this.configs = misc;
-        this.text = text.trim().replaceAll("\\s+", " ");
+        this.text = txt.trim().replaceAll("\\s+", " ");
     }
 
     @Override
