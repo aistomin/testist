@@ -40,10 +40,10 @@ public final class MultiChoiceAnswer implements Answer {
     /**
      * Ctor.
      *
-     * @param selected The options selected by user.
+     * @param selection The options selected by user.
      */
-    public MultiChoiceAnswer(final Set<Choice> selected) {
-        this.selected = selected;
+    public MultiChoiceAnswer(final Set<Choice> selection) {
+        this.selected = selection;
     }
 
     @Override
@@ -63,6 +63,9 @@ public final class MultiChoiceAnswer implements Answer {
     public String toDisplayableString() {
         final List<Choice> sorted = new ArrayList<>(this.selected);
         sorted.sort(Comparator.naturalOrder());
-        return sorted.stream().map(Enum::name).collect(Collectors.joining("; "));
+        return sorted
+            .stream()
+            .map(Enum::name)
+            .collect(Collectors.joining("; "));
     }
 }

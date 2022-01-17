@@ -65,27 +65,27 @@ public final class SimpleQuestion implements Question {
     /**
      * Ctor.
      *
-     * @param text Question's text.
+     * @param txt Question's text.
      * @param answer Expected answer to the question.
      */
-    public SimpleQuestion(final QuestionsText text, final Answer answer) {
-        this(text, Collections.singletonList(answer));
+    public SimpleQuestion(final QuestionsText txt, final Answer answer) {
+        this(txt, Collections.singletonList(answer));
     }
 
     /**
      * Ctor.
      *
-     * @param text Question's text.
+     * @param txt Question's text.
      * @param answers List of answers that are considered as the correct ones.
      */
     public SimpleQuestion(
-        final QuestionsText text, final List<Answer> answers
+        final QuestionsText txt, final List<Answer> answers
     ) {
-        this.text = text;
+        this.text = txt;
         this.expected = answers;
         this.mutex = new Object();
         this.got = new ArrayList<>(1);
-        this.identifier = text.toDisplayableString();
+        this.identifier = txt.toDisplayableString();
     }
 
     @Override

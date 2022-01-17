@@ -43,14 +43,14 @@ public final class MultiChoiceQuestionText implements QuestionsText {
     /**
      * Ctor.
      *
-     * @param text The question's text.
-     * @param choices The choices that will be displayed to the user.
+     * @param txt The question's text.
+     * @param options The choices that will be displayed to the user.
      */
     public MultiChoiceQuestionText(
-        final String text, final Map<Choice, String> choices
+        final String txt, final Map<Choice, String> options
     ) {
-        this.text = text;
-        this.choices = choices;
+        this.text = txt;
+        this.choices = options;
     }
 
     @Override

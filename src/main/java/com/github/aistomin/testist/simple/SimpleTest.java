@@ -42,25 +42,28 @@ public final class SimpleTest implements Test {
     /**
      * Ctor.
      *
-     * @param questions Questions provider.
+     * @param provider Questions provider.
      */
-    public SimpleTest(final QuestionsProvider questions) {
-        this.questions = questions.questions();
+    public SimpleTest(final QuestionsProvider provider) {
+        this.questions = provider.questions();
         this.mutex = new Object();
     }
 
+    @Override
     public Boolean hasMoreQuestions() {
         synchronized (this.mutex) {
             return this.nextIndex() < this.questions.size();
         }
     }
 
+    @Override
     public Question nextQuestion() {
         synchronized (this.mutex) {
             return this.questions.get(this.nextIndex());
         }
     }
 
+    @Override
     public Result currentTestResult() {
         synchronized (this.mutex) {
             final List<Question> correct = new ArrayList<>(0);
