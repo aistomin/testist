@@ -10,7 +10,7 @@ Library with some basic classes that allows to create a testing applications for
 ## Getting Started
 
 ### System Requirements
-- JDK 15 or higher.
+- JDK 17 or higher.
 - Apache Maven 3.8.3 or higher
 
 ### Add Maven Dependency
