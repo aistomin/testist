@@ -21,14 +21,14 @@ If you use Maven, add the following configuration to your project's `pom.xml`
     <dependency>
         <groupId>com.github.aistomin</groupId>
         <artifactId>testist</artifactId>
-        <version>0.5</version>
+        <version>1.0</version>
     </dependency>
     <!-- other dependencies are there -->
 </dependencies>
 ```
 or, if you use `Gradle`, add the following line to your build file:
 ```
-compile 'com.github.aistomin:testist:0.5'
+compile 'com.github.aistomin:testist:1.0'
 ```
 
 ## Licence
