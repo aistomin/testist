@@ -138,9 +138,7 @@ public final class SimpleQuestion implements Question {
     @Override
     public String toDisplayableString() {
         synchronized (this.mutex) {
-            final StringBuilder builder = new StringBuilder(
-                SimpleQuestion.CAPACITY
-            );
+            final StringBuilder builder = new StringBuilder(CAPACITY);
             builder.append(
                 String.format(
                     "%n**********************************%n%s%n",
