@@ -48,8 +48,7 @@ public final class SimpleTestDemo {
         new SimpleTestConsole(
             new SimpleTest(
                 new TestQuestionsProvider()
-            ),
-            SimpleTestDemo.LOG::info
+            ), LOG::info
         ).runTest();
     }
 }

@@ -83,7 +83,7 @@ public final class SimpleResult implements Result {
     public Boolean isPassed() {
         this.validate();
         return this.isFinished()
-            && (this.data.correct * MagicNumbers.HUNDRED.number())
+            && this.data.correct * MagicNumbers.HUNDRED.number()
             / this.data.total >= this.percentage;
     }
 
